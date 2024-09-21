@@ -2,7 +2,7 @@ import * as ansi from "../src/ansi";
 
 describe("extract", () => {
   test("reset", () => {
-    const { scrubbed, sequences } = ansi.extract("\u{1b}[0mreset\u{1b}[0m");
+    const [sequences, scrubbed] = ansi.extract("\u{1b}[0mreset\u{1b}[0m");
     expect(scrubbed).toBe("reset");
     expect(sequences).toEqual(
       new Map([
@@ -13,7 +13,7 @@ describe("extract", () => {
   });
 
   test("bold", () => {
-    const { scrubbed, sequences } = ansi.extract("\u{1b}[1mbold\u{1b}[22m");
+    const [sequences, scrubbed] = ansi.extract("\u{1b}[1mbold\u{1b}[22m");
     expect(scrubbed).toBe("bold");
     expect(sequences).toEqual(
       new Map([
@@ -24,7 +24,7 @@ describe("extract", () => {
   });
 
   test("italic", () => {
-    const { scrubbed, sequences } = ansi.extract("\u{1b}[3mitalic\u{1b}[23m");
+    const [sequences, scrubbed] = ansi.extract("\u{1b}[3mitalic\u{1b}[23m");
     expect(scrubbed).toBe("italic");
     expect(sequences).toEqual(
       new Map([
@@ -35,9 +35,7 @@ describe("extract", () => {
   });
 
   test("underline", () => {
-    const { scrubbed, sequences } = ansi.extract(
-      "\u{1b}[4munderline\u{1b}[24m"
-    );
+    const [sequences, scrubbed] = ansi.extract("\u{1b}[4munderline\u{1b}[24m");
     expect(scrubbed).toBe("underline");
     expect(sequences).toEqual(
       new Map([
@@ -48,7 +46,7 @@ describe("extract", () => {
   });
 
   test("color 4bit fg", () => {
-    const { scrubbed, sequences } = ansi.extract(
+    const [sequences, scrubbed] = ansi.extract(
       "\u{1b}[30m\u{1b}[31m\u{1b}[32m\u{1b}[33m\u{1b}[34m\u{1b}[35m\u{1b}[36m\u{1b}[37m4bit-colors\u{1b}[39m"
     );
     expect(scrubbed).toBe("4bit-colors");
@@ -73,7 +71,7 @@ describe("extract", () => {
   });
 
   test("color 4bit bg", () => {
-    const { scrubbed, sequences } = ansi.extract(
+    const [sequences, scrubbed] = ansi.extract(
       "\u{1b}[40m\u{1b}[41m\u{1b}[42m\u{1b}[43m\u{1b}[44m\u{1b}[45m\u{1b}[46m\u{1b}[47m4bit-colors\u{1b}[49m"
     );
     expect(scrubbed).toBe("4bit-colors");
@@ -98,7 +96,7 @@ describe("extract", () => {
   });
 
   test("color 4bit hi fg", () => {
-    const { scrubbed, sequences } = ansi.extract(
+    const [sequences, scrubbed] = ansi.extract(
       "\u{1b}[90m\u{1b}[91m\u{1b}[92m\u{1b}[93m\u{1b}[94m\u{1b}[95m\u{1b}[96m\u{1b}[97m4bit-colors high intensity\u{1b}[39m"
     );
     expect(scrubbed).toBe("4bit-colors high intensity");
@@ -123,7 +121,7 @@ describe("extract", () => {
   });
 
   test("color 4bit hi bg", () => {
-    const { scrubbed, sequences } = ansi.extract(
+    const [sequences, scrubbed] = ansi.extract(
       "\u{1b}[100m\u{1b}[101m\u{1b}[102m\u{1b}[103m\u{1b}[104m\u{1b}[105m\u{1b}[106m\u{1b}[107m4bit-colors high intensity\u{1b}[49m"
     );
     expect(scrubbed).toBe("4bit-colors high intensity");
@@ -148,7 +146,7 @@ describe("extract", () => {
   });
 
   test("color 8bit fg", () => {
-    const { scrubbed, sequences } = ansi.extract(
+    const [sequences, scrubbed] = ansi.extract(
       "\u{1b}[38;5;111m8-bit\u{1b}[0m"
     );
     expect(scrubbed).toBe("8-bit");
@@ -161,7 +159,7 @@ describe("extract", () => {
   });
 
   test("color 8bit bg", () => {
-    const { scrubbed, sequences } = ansi.extract(
+    const [sequences, scrubbed] = ansi.extract(
       "\u{1b}[48;5;111m8-bit\u{1b}[0m"
     );
     expect(scrubbed).toBe("8-bit");
@@ -175,13 +173,13 @@ describe("extract", () => {
 
   test("color 8bit invalid", () => {
     let invalid = "\u{1b}[38;5;256m\u{1b}[48;5;256minvalid";
-    const { scrubbed, sequences } = ansi.extract(invalid);
+    const [sequences, scrubbed] = ansi.extract(invalid);
     expect(scrubbed).toBe(invalid);
     expect(sequences.size).toBe(0);
   });
 
   test("color 24bit fg", () => {
-    const { scrubbed, sequences } = ansi.extract(
+    const [sequences, scrubbed] = ansi.extract(
       "\u{1b}[38;2;100;110;111m24-bit\u{1b}[0m"
     );
     expect(scrubbed).toBe("24-bit");
@@ -194,7 +192,7 @@ describe("extract", () => {
   });
 
   test("color 24bit bg", () => {
-    const { scrubbed, sequences } = ansi.extract(
+    const [sequences, scrubbed] = ansi.extract(
       "\u{1b}[48;2;100;110;111m24-bit\u{1b}[0m"
     );
     expect(scrubbed).toBe("24-bit");
@@ -208,7 +206,7 @@ describe("extract", () => {
 
   test("color 24bit invalid", () => {
     const invalid = "\u{1b}[38;2;256;100;100m\u{1b}[48;2;256;100;100minvalid";
-    const { scrubbed, sequences } = ansi.extract(invalid);
+    const [sequences, scrubbed] = ansi.extract(invalid);
     expect(scrubbed).toBe(invalid);
     expect(sequences.size).toBe(0);
   });
@@ -216,13 +214,13 @@ describe("extract", () => {
   test("invalid junk", () => {
     const invalid =
       "\u{1b}[1337minvalid\u{1b}[1337;1337;1337;1337mwithout an m:\u{1b}[0";
-    const { scrubbed, sequences } = ansi.extract(invalid);
+    const [sequences, scrubbed] = ansi.extract(invalid);
     expect(scrubbed).toBe(invalid);
     expect(sequences.size).toBe(0);
   });
 
   test("multi sequence", () => {
-    const { scrubbed, sequences } = ansi.extract(
+    const [sequences, scrubbed] = ansi.extract(
       "\u{1b}[36;1mbold cyan\u{1b}[0m"
     );
     expect(scrubbed).toBe("bold cyan");

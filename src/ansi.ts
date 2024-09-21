@@ -14,17 +14,14 @@ export enum Code {
   SetBG24,
 }
 
-export type SequenceLocations = Map<number, Sequence[]>;
+export type SequenceMap = Map<number, Sequence[]>;
 
 export interface Sequence {
   code: Code;
   args?: number[];
 }
 
-export function extract(str: string): {
-  scrubbed: string;
-  sequences: SequenceLocations;
-} {
+export function extract(str: string): [SequenceMap, string] {
   let scrubbed = "";
   let sequences = new Map<number, Sequence[]>();
 
@@ -69,7 +66,7 @@ export function extract(str: string): {
     }
   }
 
-  return { scrubbed, sequences };
+  return [sequences, scrubbed];
 }
 
 function matchSequences(codes: number[]): Sequence[] {
