@@ -1,4 +1,4 @@
-import * as ansi from "../ansi";
+import * as ansi from "../src/ansi";
 
 describe("extract", () => {
   test("reset", () => {
