@@ -14,6 +14,11 @@ export enum Command {
   EndGroup = "endgroup",
 }
 
+export class Group {
+  children: Line[] = [];
+  ended: boolean = false;
+}
+
 export class Line {
   n: number;
   ts: Date;
@@ -21,21 +26,30 @@ export class Line {
   ansis: ansi.SequenceMap;
   links: Map<number, number>;
   content: string;
+  group?: Group;
 
   constructor(number: number, raw: string, id?: string) {
-    this.n = number;
     let [ts, withoutTS] = Line.extractTimestamp(raw, id);
-    this.ts = ts;
     let [cmd, withoutCMD] = Line.extractCommand(withoutTS);
-    this.cmd = cmd;
     let [ansis, content] = ansi.extract(withoutCMD);
+    this.n = number;
+    this.ts = ts;
+    this.cmd = cmd;
     this.ansis = ansis;
     this.content = content;
     this.links = Line.extractLinks(content);
+
+    if (this.isGroup()) {
+      this.group = new Group();
+    }
+  }
+
+  isGroup(): boolean {
+    return this.cmd === Command.Group;
   }
 
   setSearch(search: string) {
-    // TODO: implement
+    // TODO: implement for self + children
   }
 
   static extractTimestamp(line: string, id?: string): [Date, string] {
