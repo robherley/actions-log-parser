@@ -2,8 +2,8 @@ import { Line, Command } from "./line";
 
 export class Parser {
   private idx: number;
-  private lines: Line[];
   private search: string;
+  lines: Line[];
 
   constructor() {
     this.idx = 1;
@@ -18,12 +18,13 @@ export class Parser {
   }
 
   add(raw: string, id?: string) {
-    const line = new Line(this.idx++, raw, id);
+    const line = new Line(this.idx, raw, id);
     switch (line.cmd) {
       case Command.EndGroup: {
         if (this.inGroup()) {
           this.endGroup();
           // don't add endgroup lines when they properly close a group
+          // also don't increment the index
           return;
         }
 
@@ -40,23 +41,29 @@ export class Parser {
       default: {
         if (this.inGroup()) {
           // in a group, add it to said group
-          this.lines[this.lines.length - 1].group!.children.push(line);
+          this.last()?.group!.children.push(line);
         } else {
           // otherwise, add it as a regular line
           this.lines.push(line);
         }
       }
     }
+
+    this.idx++;
+  }
+
+  last(): Line {
+    return this.lines[this.lines.length - 1];
   }
 
   inGroup() {
-    let group = this.lines[this.lines.length - 1]?.group;
+    let group = this.last()?.group;
     return group && !group.ended;
   }
 
   endGroup() {
     if (this.inGroup()) {
-      this.lines[this.lines.length - 1].group!.ended = true;
+      this.last().group!.end();
     }
   }
 
@@ -67,7 +74,7 @@ export class Parser {
   setSearch(search: string) {
     this.search = search;
     for (let line of this.lines) {
-      line.setSearch(search);
+      line.highlight(search);
     }
   }
 }

@@ -96,4 +96,42 @@ describe("Line", () => {
       expect(links.size).toBe(0);
     });
   });
+
+  describe("highlight", () => {
+    test("matches", () => {
+      const line = new Line(0, "foo bar baz bAr");
+      line.highlight("bar");
+      expect(line.highlights).toEqual(
+        new Map([
+          [4, 7],
+          [12, 15],
+        ])
+      );
+    });
+
+    test("mixed cases", () => {
+      const line = new Line(0, "foo bar baz bAr");
+      line.highlight("BAR");
+      expect(line.highlights).toEqual(
+        new Map([
+          [4, 7],
+          [12, 15],
+        ])
+      );
+    });
+
+    test("clears", () => {
+      const line = new Line(0, "foo bar baz bAr");
+      line.highlight("bar");
+      expect(line.highlights).toEqual(
+        new Map([
+          [4, 7],
+          [12, 15],
+        ])
+      );
+
+      line.highlight("");
+      expect(line.highlights.size).toBe(0);
+    });
+  });
 });

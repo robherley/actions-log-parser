@@ -17,6 +17,12 @@ export enum Command {
 export class Group {
   children: Line[] = [];
   ended: boolean = false;
+  open: boolean = true;
+
+  end() {
+    this.ended = true;
+    this.open = false;
+  }
 }
 
 export class Line {
@@ -25,6 +31,7 @@ export class Line {
   cmd?: Command;
   ansis: ansi.SequenceMap;
   links: Map<number, number>;
+  highlights: Map<number, number>;
   content: string;
   group?: Group;
 
@@ -38,6 +45,7 @@ export class Line {
     this.ansis = ansis;
     this.content = content;
     this.links = Line.extractLinks(content);
+    this.highlights = new Map();
 
     if (this.isGroup()) {
       this.group = new Group();
@@ -48,8 +56,19 @@ export class Line {
     return this.cmd === Command.Group;
   }
 
-  setSearch(search: string) {
-    // TODO: implement for self + children
+  highlight(search: string) {
+    this.highlights.clear();
+    if (search) {
+      [...this.content.matchAll(new RegExp(search, "gi"))].forEach((m) => {
+        this.highlights.set(m.index, m.index + m[0].length);
+      });
+    }
+
+    // TODO: clear rendered element cache
+
+    if (this.isGroup()) {
+      this.group?.children.forEach((line) => line.highlight(search));
+    }
   }
 
   static extractTimestamp(line: string, id?: string): [Date, string] {
