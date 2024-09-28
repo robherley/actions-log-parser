@@ -18,7 +18,7 @@ export type SequenceMap = Map<number, Sequence[]>;
 
 export interface Sequence {
   code: Code;
-  args?: number[];
+  args?: [number] | [number, number, number];
 }
 
 export function extract(str: string): [SequenceMap, string] {
