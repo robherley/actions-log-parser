@@ -10,6 +10,14 @@ describe("Parser", () => {
     expect(parser.lines[0].n).toEqual(1);
   });
 
+  it("deduplicates lines with the same id", () => {
+    const parser = new Parser();
+    parser.add("hello", "1");
+    parser.add("world", "1");
+    expect(parser.lines).toHaveLength(1);
+    expect(parser.lines[0].content).toEqual("hello");
+  });
+
   it("adds a line and opens a group", () => {
     const parser = new Parser();
     parser.add("##[group]hello");
