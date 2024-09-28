@@ -2,23 +2,33 @@ import { Line, Command } from "./line";
 
 export class Parser {
   private idx: number;
+  private seenIDs: Set<string>;
   private search: string;
-  lines: Line[];
+  private matches: number;
+  readonly lines: Line[];
 
   constructor() {
     this.idx = 1;
-    this.lines = [];
+    this.seenIDs = new Set();
     this.search = "";
-  }
-
-  reset() {
-    this.idx = 1;
+    this.matches = 0;
     this.lines = [];
-    this.search = "";
   }
 
   add(raw: string, id?: string) {
+    if (id) {
+      if (this.seenIDs.has(id)) {
+        return;
+      }
+
+      this.seenIDs.add(id);
+    }
+
     const line = new Line(this.idx, raw, id);
+    if (this.search) {
+      line.highlight(this.search);
+    }
+
     switch (line.cmd) {
       case Command.EndGroup: {
         if (this.inGroup()) {
@@ -50,6 +60,7 @@ export class Parser {
     }
 
     this.idx++;
+    this.matches += line.highlights.size;
   }
 
   last(): Line {
@@ -67,14 +78,16 @@ export class Parser {
     }
   }
 
-  getSearch(): string {
-    return this.search;
-  }
-
-  setSearch(search: string) {
+  setSearch(search: string): number {
+    this.matches = 0;
     this.search = search;
     for (let line of this.lines) {
-      line.highlight(search);
+      this.matches += line.highlight(search);
     }
+    return this.matches;
+  }
+
+  getMatches(): number {
+    return this.matches;
   }
 }

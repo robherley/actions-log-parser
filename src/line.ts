@@ -47,16 +47,13 @@ export class Line {
     this.links = Line.extractLinks(content);
     this.highlights = new Map();
 
-    if (this.isGroup()) {
+    if (this.cmd === Command.Group) {
       this.group = new Group();
     }
   }
 
-  isGroup(): boolean {
-    return this.cmd === Command.Group;
-  }
-
-  highlight(search: string) {
+  highlight(search: string): number {
+    let matches = 0;
     this.highlights.clear();
     if (search) {
       [...this.content.matchAll(new RegExp(search, "gi"))].forEach((m) => {
@@ -64,11 +61,17 @@ export class Line {
       });
     }
 
+    matches += this.highlights.size;
+
     // TODO: clear rendered element cache
 
-    if (this.isGroup()) {
-      this.group?.children.forEach((line) => line.highlight(search));
+    if (this.group) {
+      this.group.children.forEach(
+        (line) => (matches += line.highlight(search))
+      );
     }
+
+    return matches;
   }
 
   static extractTimestamp(line: string, id?: string): [Date, string] {

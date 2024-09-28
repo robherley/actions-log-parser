@@ -100,18 +100,19 @@ describe("Line", () => {
   describe("highlight", () => {
     test("matches", () => {
       const line = new Line(0, "foo bar baz bAr");
-      line.highlight("bar");
+      const matches = line.highlight("bar");
       expect(line.highlights).toEqual(
         new Map([
           [4, 7],
           [12, 15],
         ])
       );
+      expect(matches).toBe(2);
     });
 
     test("mixed cases", () => {
       const line = new Line(0, "foo bar baz bAr");
-      line.highlight("BAR");
+      expect(line.highlight("BAR")).toBe(2);
       expect(line.highlights).toEqual(
         new Map([
           [4, 7],
@@ -122,7 +123,7 @@ describe("Line", () => {
 
     test("clears", () => {
       const line = new Line(0, "foo bar baz bAr");
-      line.highlight("bar");
+      expect(line.highlight("bar")).toBe(2);
       expect(line.highlights).toEqual(
         new Map([
           [4, 7],
@@ -130,8 +131,16 @@ describe("Line", () => {
         ])
       );
 
-      line.highlight("");
+      expect(line.highlight("")).toBe(0);
       expect(line.highlights.size).toBe(0);
+    });
+
+    test("nested", () => {
+      const line = new Line(0, "##[group]foo bar baz");
+      line.group?.children.push(new Line(1, "foo bar baz"));
+      expect(line.highlight("bar")).toBe(2);
+      expect(line.highlights).toEqual(new Map([[4, 7]]));
+      expect(line.group?.children[0].highlights).toEqual(new Map([[4, 7]]));
     });
   });
 });
