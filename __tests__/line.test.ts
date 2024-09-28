@@ -3,7 +3,7 @@ import * as ansi from "../src/ansi";
 
 describe("Line", () => {
   describe("new", () => {
-    test("constructor", () => {
+    it("constructor", () => {
       const line = new Line(
         123,
         "2024-01-15T00:14:43.5805748Z ##[warning]\u{1b}[31mfoo\u{1b}[0m example.com bar"
@@ -23,21 +23,21 @@ describe("Line", () => {
   });
 
   describe("extractTimestamp", () => {
-    test("from content", () => {
+    it("from content", () => {
       const line = "2024-01-15T00:14:43.5805748Z foo";
       const [ts, content] = Line.extractTimestamp(line);
       expect(ts).toEqual(new Date("2024-01-15T00:14:43.580Z"));
       expect(content).toEqual("foo");
     });
 
-    test("from id", () => {
+    it("from id", () => {
       const line = "foo";
       const [ts, content] = Line.extractTimestamp(line, "1705277683580-0");
       expect(ts).toEqual(new Date(1705277683580));
       expect(content).toEqual(line);
     });
 
-    test("no timestamp", () => {
+    it("no timestamp", () => {
       const line = "hello";
       const [ts, content] = Line.extractTimestamp(line);
       expect(ts).not.toBeNull();
@@ -47,14 +47,14 @@ describe("Line", () => {
 
   describe("extractCommand", () => {
     Object.values(Command).forEach((cmd) => {
-      test(`from ##[${cmd}]`, () => {
+      it(`from ##[${cmd}]`, () => {
         const line = `##[${cmd}]foobar`;
         const result = Line.extractCommand(line);
         expect(result[0]).toEqual(cmd);
         expect(result[1]).toEqual("foobar");
       });
 
-      test(`from [${cmd}]`, () => {
+      it(`from [${cmd}]`, () => {
         const line = `[${cmd}]foobar`;
         const result = Line.extractCommand(line);
         expect(result[0]).toEqual(cmd);
@@ -62,14 +62,14 @@ describe("Line", () => {
       });
     });
 
-    test("no command", () => {
+    it("no command", () => {
       const line = "hello";
       const result = Line.extractCommand(line);
       expect(result[0]).toBeUndefined();
       expect(result[1]).toEqual("hello");
     });
 
-    test("invalid command", () => {
+    it("invalid command", () => {
       const line = "##[foo]";
       const result = Line.extractCommand(line);
       expect(result[0]).toBeUndefined();
@@ -78,7 +78,7 @@ describe("Line", () => {
   });
 
   describe("extractLinks", () => {
-    test("with links", () => {
+    it("with links", () => {
       const line = "foo https://example.com bar reb.gg";
       const links = Line.extractLinks(line);
       expect(links.size).toBe(2);
@@ -90,7 +90,7 @@ describe("Line", () => {
       );
     });
 
-    test("no links", () => {
+    it("no links", () => {
       const line = "foo bar";
       const links = Line.extractLinks(line);
       expect(links.size).toBe(0);
@@ -98,7 +98,7 @@ describe("Line", () => {
   });
 
   describe("highlight", () => {
-    test("matches", () => {
+    it("matches", () => {
       const line = new Line(0, "foo bar baz bAr");
       const matches = line.highlight("bar");
       expect(line.highlights).toEqual(
@@ -110,7 +110,7 @@ describe("Line", () => {
       expect(matches).toBe(2);
     });
 
-    test("mixed cases", () => {
+    it("mixed cases", () => {
       const line = new Line(0, "foo bar baz bAr");
       expect(line.highlight("BAR")).toBe(2);
       expect(line.highlights).toEqual(
@@ -121,7 +121,7 @@ describe("Line", () => {
       );
     });
 
-    test("clears", () => {
+    it("clears", () => {
       const line = new Line(0, "foo bar baz bAr");
       expect(line.highlight("bar")).toBe(2);
       expect(line.highlights).toEqual(
@@ -135,7 +135,7 @@ describe("Line", () => {
       expect(line.highlights.size).toBe(0);
     });
 
-    test("nested", () => {
+    it("nested", () => {
       const line = new Line(0, "##[group]foo bar baz");
       line.group?.children.push(new Line(1, "foo bar baz"));
       expect(line.highlight("bar")).toBe(2);
