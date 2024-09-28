@@ -1,4 +1,5 @@
 import * as ansi from "./ansi";
+import * as elements from "./elements";
 import * as linkify from "linkifyjs";
 
 // https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions
@@ -34,6 +35,7 @@ export class Line {
   highlights: Map<number, number>;
   content: string;
   group?: Group;
+  _elements?: elements.Element[];
 
   constructor(number: number, raw: string, id?: string) {
     let [ts, withoutTS] = Line.extractTimestamp(raw, id);
@@ -63,7 +65,7 @@ export class Line {
 
     matches += this.highlights.size;
 
-    // TODO: clear rendered element cache
+    this._elements = undefined;
 
     if (this.group) {
       this.group.children.forEach(
@@ -72,6 +74,15 @@ export class Line {
     }
 
     return matches;
+  }
+
+  elements(): elements.Element[] {
+    if (this._elements) {
+      return this._elements;
+    }
+
+    this._elements = elements.build(this);
+    return this._elements;
   }
 
   static extractTimestamp(line: string, id?: string): [Date, string] {

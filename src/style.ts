@@ -35,6 +35,28 @@ export class Style {
     this.background = background;
   }
 
+  copy(): Style {
+    return new Style({
+      bold: this.bold,
+      italic: this.italic,
+      underline: this.underline,
+      highlight: this.highlight,
+      color: this.color,
+      background: this.background,
+    });
+  }
+
+  equals(other: Style): boolean {
+    return (
+      this.bold === other.bold &&
+      this.italic === other.italic &&
+      this.underline === other.underline &&
+      this.highlight === other.highlight &&
+      this.color === other.color &&
+      this.background === other.background
+    );
+  }
+
   isEmpty(): boolean {
     return (
       !this.bold &&
