@@ -1,5 +1,5 @@
 import { Line, Command } from "../src/line";
-import * as ansi from "../src/ansi";
+import { ANSICode } from "../src/ansi";
 
 describe("Line", () => {
   describe("new", () => {
@@ -15,8 +15,8 @@ describe("Line", () => {
       expect(line.content).toEqual("foo example.com bar");
       expect(line.ansis).toEqual(
         new Map([
-          [0, [{ code: ansi.Code.SetFG8, args: [1] }]],
-          [3, [{ code: ansi.Code.Reset }]],
+          [0, [{ code: ANSICode.SetFG8, args: [1] }]],
+          [3, [{ code: ANSICode.Reset }]],
         ])
       );
     });

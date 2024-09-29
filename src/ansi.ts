@@ -1,4 +1,4 @@
-export enum Code {
+export enum ANSICode {
   Reset,
   Bold,
   Italic,
@@ -14,16 +14,16 @@ export enum Code {
   SetBG24,
 }
 
-export type SequenceMap = Map<number, Sequence[]>;
+export type ANSISequenceMap = Map<number, ANSISequence[]>;
 
-export interface Sequence {
-  code: Code;
+export interface ANSISequence {
+  code: ANSICode;
   args?: [number] | [number, number, number];
 }
 
-export function extract(str: string): [SequenceMap, string] {
+export function extractANSI(str: string): [ANSISequenceMap, string] {
   let scrubbed = "";
-  let sequences = new Map<number, Sequence[]>();
+  let sequences = new Map<number, ANSISequence[]>();
 
   for (let i = 0; i < str.length; i++) {
     if (str[i] == "\x1b" && str[i + 1] == "[") {
@@ -69,32 +69,32 @@ export function extract(str: string): [SequenceMap, string] {
   return [sequences, scrubbed];
 }
 
-function matchSequences(codes: number[]): Sequence[] {
-  let s: Sequence[] = [];
+function matchSequences(codes: number[]): ANSISequence[] {
+  let s: ANSISequence[] = [];
 
   while (codes.length) {
     let code = codes.shift()!;
     switch (code) {
       case 0:
-        s.push({ code: Code.Reset });
+        s.push({ code: ANSICode.Reset });
         break;
       case 1:
-        s.push({ code: Code.Bold });
+        s.push({ code: ANSICode.Bold });
         break;
       case 3:
-        s.push({ code: Code.Italic });
+        s.push({ code: ANSICode.Italic });
         break;
       case 4:
-        s.push({ code: Code.Underline });
+        s.push({ code: ANSICode.Underline });
         break;
       case 22:
-        s.push({ code: Code.NotBold });
+        s.push({ code: ANSICode.NotBold });
         break;
       case 23:
-        s.push({ code: Code.NotItalic });
+        s.push({ code: ANSICode.NotItalic });
         break;
       case 24:
-        s.push({ code: Code.NotUnderline });
+        s.push({ code: ANSICode.NotUnderline });
         break;
       case 30:
       case 31:
@@ -105,7 +105,7 @@ function matchSequences(codes: number[]): Sequence[] {
       case 36:
       case 37:
         // https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit
-        s.push({ code: Code.SetFG8, args: [code - 30] }); // 30-37 are 4bit colors
+        s.push({ code: ANSICode.SetFG8, args: [code - 30] }); // 30-37 are 4bit colors
         break;
       case 38: {
         let next = codes.shift();
@@ -113,14 +113,14 @@ function matchSequences(codes: number[]): Sequence[] {
           // 8-bit color FG
           case 5: {
             if (codes.length < 1) return [];
-            s.push({ code: Code.SetFG8, args: [codes.shift()!] });
+            s.push({ code: ANSICode.SetFG8, args: [codes.shift()!] });
             break;
           }
           // 24-bit color FG
           case 2: {
             if (codes.length < 3) return [];
             s.push({
-              code: Code.SetFG24,
+              code: ANSICode.SetFG24,
               args: [codes.shift()!, codes.shift()!, codes.shift()!],
             });
             break;
@@ -131,7 +131,7 @@ function matchSequences(codes: number[]): Sequence[] {
         break;
       }
       case 39:
-        s.push({ code: Code.DefaultFG });
+        s.push({ code: ANSICode.DefaultFG });
         break;
       case 40:
       case 41:
@@ -142,7 +142,7 @@ function matchSequences(codes: number[]): Sequence[] {
       case 46:
       case 47:
         // 40-47 are 4bit colors
-        s.push({ code: Code.SetBG8, args: [code - 40] });
+        s.push({ code: ANSICode.SetBG8, args: [code - 40] });
         break;
       case 48: {
         let next = codes.shift();
@@ -150,14 +150,14 @@ function matchSequences(codes: number[]): Sequence[] {
           // 8-bit color BG
           case 5: {
             if (codes.length < 1) return [];
-            s.push({ code: Code.SetBG8, args: [codes.shift()!] });
+            s.push({ code: ANSICode.SetBG8, args: [codes.shift()!] });
             break;
           }
           // 24-bit color BG
           case 2: {
             if (codes.length < 3) return [];
             s.push({
-              code: Code.SetBG24,
+              code: ANSICode.SetBG24,
               args: [codes.shift()!, codes.shift()!, codes.shift()!],
             });
             break;
@@ -168,7 +168,7 @@ function matchSequences(codes: number[]): Sequence[] {
         break;
       }
       case 49:
-        s.push({ code: Code.DefaultBG });
+        s.push({ code: ANSICode.DefaultBG });
         break;
       case 90:
       case 91:
@@ -179,7 +179,7 @@ function matchSequences(codes: number[]): Sequence[] {
       case 96:
       case 97:
         // bright 4bit colors FG
-        s.push({ code: Code.SetFG8, args: [code - 90 + 8] });
+        s.push({ code: ANSICode.SetFG8, args: [code - 90 + 8] });
         break;
       case 100:
       case 101:
@@ -190,7 +190,7 @@ function matchSequences(codes: number[]): Sequence[] {
       case 106:
       case 107:
         // bright 4bit colors BG
-        s.push({ code: Code.SetBG8, args: [code - 100 + 8] });
+        s.push({ code: ANSICode.SetBG8, args: [code - 100 + 8] });
         break;
       default:
         // invalid

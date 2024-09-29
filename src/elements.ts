@@ -1,31 +1,31 @@
 import { Line } from "./line";
-import { Style } from "./style";
+import { Styles } from "./styles";
 
-export type Element = Link | Text;
-export type Text = StyledText | string;
+export type Element = LinkElement | TextElement;
+export type TextElement = StyledText | string;
 
-export interface Link {
+export interface LinkElement {
   href: string;
-  children: Text[];
+  children: TextElement[];
 }
 
 export interface StyledText {
   content: string;
-  style: Style;
+  style: Styles;
 }
 
-class Builder {
+export class ElementsBuilder {
   elements: Element[] = [];
   text: string;
-  styles: Style;
+  styles: Styles;
   endHighlightIdx?: number;
   endLinkIdx?: number;
-  parent?: Link;
+  parent?: LinkElement;
 
   constructor() {
     this.elements = [];
     this.text = "";
-    this.styles = new Style();
+    this.styles = new Styles();
   }
 
   elementsFor(line: Line): Element[] {
@@ -91,7 +91,7 @@ class Builder {
       return;
     }
 
-    let textElement: Text;
+    let textElement: TextElement;
 
     if (this.styles.isEmpty()) {
       textElement = this.text;
@@ -110,8 +110,8 @@ class Builder {
 
     this.text = "";
   }
-}
 
-export function build(line: Line): Element[] {
-  return new Builder().elementsFor(line);
+  static build(line: Line): Element[] {
+    return new ElementsBuilder().elementsFor(line);
+  }
 }

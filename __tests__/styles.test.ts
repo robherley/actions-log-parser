@@ -1,49 +1,49 @@
-import * as ansi from "../src/ansi";
-import { Style } from "../src/style";
+import { ANSISequence, ANSICode } from "../src/ansi";
+import { Styles } from "../src/styles";
 
 describe("Style", () => {
   it("is empty", () => {
-    const style = new Style();
+    const style = new Styles();
     expect(style.isEmpty()).toBe(true);
     style.bold = true;
     expect(style.isEmpty()).toBe(false);
   });
 
   it("applies ANSI codes", () => {
-    let cases: [ansi.Sequence, Style][] = [
-      [{ code: ansi.Code.Reset }, new Style()],
-      [{ code: ansi.Code.Bold }, new Style({ bold: true })],
-      [{ code: ansi.Code.Italic }, new Style({ italic: true })],
-      [{ code: ansi.Code.Underline }, new Style({ underline: true })],
-      [{ code: ansi.Code.NotBold }, new Style({ bold: false })],
-      [{ code: ansi.Code.NotItalic }, new Style({ italic: false })],
-      [{ code: ansi.Code.NotUnderline }, new Style({ underline: false })],
-      [{ code: ansi.Code.SetFG8, args: [1] }, new Style({ color: 1 })],
-      [{ code: ansi.Code.DefaultFG }, new Style({ color: undefined })],
-      [{ code: ansi.Code.SetBG8, args: [1] }, new Style({ background: 1 })],
-      [{ code: ansi.Code.DefaultBG }, new Style({ background: undefined })],
+    let cases: [ANSISequence, Styles][] = [
+      [{ code: ANSICode.Reset }, new Styles()],
+      [{ code: ANSICode.Bold }, new Styles({ bold: true })],
+      [{ code: ANSICode.Italic }, new Styles({ italic: true })],
+      [{ code: ANSICode.Underline }, new Styles({ underline: true })],
+      [{ code: ANSICode.NotBold }, new Styles({ bold: false })],
+      [{ code: ANSICode.NotItalic }, new Styles({ italic: false })],
+      [{ code: ANSICode.NotUnderline }, new Styles({ underline: false })],
+      [{ code: ANSICode.SetFG8, args: [1] }, new Styles({ color: 1 })],
+      [{ code: ANSICode.DefaultFG }, new Styles({ color: undefined })],
+      [{ code: ANSICode.SetBG8, args: [1] }, new Styles({ background: 1 })],
+      [{ code: ANSICode.DefaultBG }, new Styles({ background: undefined })],
       [
-        { code: ansi.Code.SetFG24, args: [1, 2, 3] },
-        new Style({ color: [1, 2, 3] }),
+        { code: ANSICode.SetFG24, args: [1, 2, 3] },
+        new Styles({ color: [1, 2, 3] }),
       ],
       [
-        { code: ansi.Code.SetBG24, args: [1, 2, 3] },
-        new Style({ background: [1, 2, 3] }),
+        { code: ANSICode.SetBG24, args: [1, 2, 3] },
+        new Styles({ background: [1, 2, 3] }),
       ],
     ];
 
     for (const [seq, expected] of cases) {
-      const style = new Style();
+      const style = new Styles();
       style.applyANSI(seq);
       expect(style).toEqual(expected);
     }
   });
 
   it("applies ANSI resetters", () => {
-    let cases: [ansi.Sequence, Style][] = [
+    let cases: [ANSISequence, Styles][] = [
       [
-        { code: ansi.Code.Reset },
-        new Style({
+        { code: ANSICode.Reset },
+        new Styles({
           bold: true,
           italic: true,
           underline: true,
@@ -51,11 +51,11 @@ describe("Style", () => {
           background: 1,
         }),
       ],
-      [{ code: ansi.Code.NotBold }, new Style({ bold: true })],
-      [{ code: ansi.Code.NotItalic }, new Style({ italic: true })],
-      [{ code: ansi.Code.NotUnderline }, new Style({ underline: true })],
-      [{ code: ansi.Code.DefaultFG }, new Style({ color: 1 })],
-      [{ code: ansi.Code.DefaultBG }, new Style({ background: 1 })],
+      [{ code: ANSICode.NotBold }, new Styles({ bold: true })],
+      [{ code: ANSICode.NotItalic }, new Styles({ italic: true })],
+      [{ code: ANSICode.NotUnderline }, new Styles({ underline: true })],
+      [{ code: ANSICode.DefaultFG }, new Styles({ color: 1 })],
+      [{ code: ANSICode.DefaultBG }, new Styles({ background: 1 })],
     ];
 
     for (const [seq, before] of cases) {

@@ -1,8 +1,8 @@
-import * as ansi from "./ansi";
+import { ANSISequence, ANSICode } from "./ansi";
 
-type Color = number | [number, number, number];
+export type Color = number | [number, number, number];
 
-export interface StyleOptions {
+export interface StylesOptions {
   bold?: boolean;
   italic?: boolean;
   underline?: boolean;
@@ -11,7 +11,7 @@ export interface StyleOptions {
   background?: Color;
 }
 
-export class Style {
+export class Styles {
   bold: boolean;
   italic: boolean;
   underline: boolean;
@@ -26,7 +26,7 @@ export class Style {
     highlight = false,
     color = undefined,
     background = undefined,
-  }: StyleOptions = {}) {
+  }: StylesOptions = {}) {
     this.bold = bold;
     this.italic = italic;
     this.underline = underline;
@@ -35,8 +35,8 @@ export class Style {
     this.background = background;
   }
 
-  copy(): Style {
-    return new Style({
+  copy(): Styles {
+    return new Styles({
       bold: this.bold,
       italic: this.italic,
       underline: this.underline,
@@ -46,7 +46,7 @@ export class Style {
     });
   }
 
-  equals(other: Style): boolean {
+  equals(other: Styles): boolean {
     return (
       this.bold === other.bold &&
       this.italic === other.italic &&
@@ -68,15 +68,15 @@ export class Style {
     );
   }
 
-  applyANSIs(seqs: ansi.Sequence[]) {
+  applyANSIs(seqs: ANSISequence[]) {
     for (const seq of seqs) {
       this.applyANSI(seq);
     }
   }
 
-  applyANSI(seq: ansi.Sequence) {
+  applyANSI(seq: ANSISequence) {
     switch (seq.code) {
-      case ansi.Code.Reset:
+      case ANSICode.Reset:
         this.bold = false;
         this.italic = false;
         this.underline = false;
@@ -84,47 +84,47 @@ export class Style {
         this.background = undefined;
         // note: does not reset highlight
         break;
-      case ansi.Code.Bold:
+      case ANSICode.Bold:
         this.bold = true;
         break;
-      case ansi.Code.Italic:
+      case ANSICode.Italic:
         this.italic = true;
         break;
-      case ansi.Code.Underline:
+      case ANSICode.Underline:
         this.underline = true;
         break;
-      case ansi.Code.NotBold:
+      case ANSICode.NotBold:
         this.bold = false;
         break;
-      case ansi.Code.NotItalic:
+      case ANSICode.NotItalic:
         this.italic = false;
         break;
-      case ansi.Code.NotUnderline:
+      case ANSICode.NotUnderline:
         this.underline = false;
         break;
-      case ansi.Code.SetFG8:
+      case ANSICode.SetFG8:
         if (seq.args?.length === 1) {
           this.color = seq.args[0];
         }
         break;
-      case ansi.Code.DefaultFG:
+      case ANSICode.DefaultFG:
         this.color = undefined;
         break;
-      case ansi.Code.SetBG8:
+      case ANSICode.SetBG8:
         if (seq.args?.length === 1) {
           this.background = seq.args[0];
         }
         break;
-      case ansi.Code.DefaultBG:
+      case ANSICode.DefaultBG:
         this.background = undefined;
         break;
-      case ansi.Code.SetFG24:
+      case ANSICode.SetFG24:
         if (seq.args?.length === 3) {
           const [r, g, b] = seq.args;
           this.color = [r, g, b];
         }
         break;
-      case ansi.Code.SetBG24:
+      case ANSICode.SetBG24:
         if (seq.args?.length === 3) {
           const [r, g, b] = seq.args;
           this.background = [r, g, b];

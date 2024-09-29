@@ -1,13 +1,21 @@
 import { Line, Command } from "./line";
 
-export class Parser {
-  private idx: number;
-  private seenIDs: Set<string>;
-  private search: string;
-  private matches: number;
-  readonly lines: Line[];
+export class LogParser {
+  idx: number;
+  seenIDs: Set<string>;
+  search: string;
+  matches: number;
+  lines: Line[];
 
   constructor() {
+    this.idx = 1;
+    this.seenIDs = new Set();
+    this.search = "";
+    this.matches = 0;
+    this.lines = [];
+  }
+
+  reset() {
     this.idx = 1;
     this.seenIDs = new Set();
     this.search = "";
@@ -61,6 +69,10 @@ export class Parser {
 
     this.idx++;
     this.matches += line.highlights.size;
+  }
+
+  addRaw(raw: string) {
+    raw.split("\n").forEach((line) => this.add(line));
   }
 
   last(): Line {

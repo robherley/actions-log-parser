@@ -1,5 +1,5 @@
-import * as ansi from "./ansi";
-import * as elements from "./elements";
+import { ANSISequenceMap, extractANSI } from "./ansi";
+import { Element, ElementsBuilder } from "./elements";
 import * as linkify from "linkifyjs";
 
 // https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions
@@ -30,17 +30,17 @@ export class Line {
   n: number;
   ts: Date;
   cmd?: Command;
-  ansis: ansi.SequenceMap;
+  ansis: ANSISequenceMap;
   links: Map<number, number>;
   highlights: Map<number, number>;
   content: string;
   group?: Group;
-  _elements?: elements.Element[];
+  _elements?: Element[];
 
   constructor(number: number, raw: string, id?: string) {
     let [ts, withoutTS] = Line.extractTimestamp(raw, id);
     let [cmd, withoutCMD] = Line.extractCommand(withoutTS);
-    let [ansis, content] = ansi.extract(withoutCMD);
+    let [ansis, content] = extractANSI(withoutCMD);
     this.n = number;
     this.ts = ts;
     this.cmd = cmd;
@@ -76,12 +76,12 @@ export class Line {
     return matches;
   }
 
-  elements(): elements.Element[] {
+  elements(): Element[] {
     if (this._elements) {
       return this._elements;
     }
 
-    this._elements = elements.build(this);
+    this._elements = ElementsBuilder.build(this);
     return this._elements;
   }
 

@@ -1,9 +1,9 @@
 import { Line, Command } from "../src/line";
-import { Parser } from "../src/parser";
+import { LogParser } from "../src/parser";
 
-describe("Parser", () => {
+describe("LogParser", () => {
   it("adds a line with correct idx", () => {
-    const parser = new Parser();
+    const parser = new LogParser();
     parser.add("hello");
     expect(parser.lines).toHaveLength(1);
     expect(parser.lines[0]).toBeInstanceOf(Line);
@@ -11,7 +11,7 @@ describe("Parser", () => {
   });
 
   it("deduplicates lines with the same id", () => {
-    const parser = new Parser();
+    const parser = new LogParser();
     parser.add("hello", "1");
     parser.add("world", "1");
     expect(parser.lines).toHaveLength(1);
@@ -19,7 +19,7 @@ describe("Parser", () => {
   });
 
   it("adds a line and opens a group", () => {
-    const parser = new Parser();
+    const parser = new LogParser();
     parser.add("##[group]hello");
     expect(parser.lines).toHaveLength(1);
     expect(parser.inGroup()).toBe(true);
@@ -46,7 +46,7 @@ describe("Parser", () => {
       "2024-01-15T00:14:49.2839497Z 2.0.321.1",
       "2024-01-15T00:14:49.2839965Z ##[endgroup]",
     ];
-    const parser = new Parser();
+    const parser = new LogParser();
     for (const line of lines) {
       parser.add(line);
     }
@@ -73,7 +73,7 @@ describe("Parser", () => {
       "##[endgroup]",
     ];
 
-    const parser = new Parser();
+    const parser = new LogParser();
     for (const line of lines) {
       parser.add(line);
     }
@@ -91,7 +91,7 @@ describe("Parser", () => {
   it("searches lines", () => {
     const lines = ["foo", "bar", "baz"];
 
-    const parser = new Parser();
+    const parser = new LogParser();
     for (const line of lines) {
       parser.add(line);
     }
