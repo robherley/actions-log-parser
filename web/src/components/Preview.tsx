@@ -1,8 +1,22 @@
 import { useRef } from "react";
+import { Command } from "../../../src/index";
 import type { Element, LinePointer, LogParser, Line } from "../../../src/index";
 import { Box } from "@primer/react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { stylesToAttributes } from "../util/attributes";
+
+const Prefix: React.FC<{ cmd?: Command }> = ({ cmd }) => {
+  switch (cmd) {
+    case Command.Error:
+      return <span className="text-bold color-fg-danger">{cmd}: </span>;
+    case Command.Warning:
+      return <span className="text-bold color-fg-attention">{cmd}: </span>;
+    case Command.Notice:
+      return <span className="text-bold">{cmd}: </span>;
+    default:
+      return null;
+  }
+};
 
 const RenderedLine: React.FC<{ line?: Line }> = ({ line }) => {
   if (!line) {
@@ -13,8 +27,21 @@ const RenderedLine: React.FC<{ line?: Line }> = ({ line }) => {
     .elements()
     .map((element, i) => <Element key={i} element={element} />);
 
+  const lineClass =
+    {
+      [Command.Error]: "color-bg-danger",
+      [Command.Warning]: "color-bg-attention",
+    }[line.cmd as string] || "";
+
+  const contentClass =
+    {
+      [Command.Command]: "color-fg-accent",
+      [Command.Debug]: "color-fg-done",
+      [Command.Section]: "text-bold color-fg-success",
+    }[line.cmd as string] || "";
+
   return (
-    <div style={{ display: "flex" }}>
+    <div className={lineClass} style={{ display: "flex" }}>
       <Box
         as="span"
         sx={{
@@ -28,12 +55,14 @@ const RenderedLine: React.FC<{ line?: Line }> = ({ line }) => {
         {line.n}
       </Box>
       <span
+        className={contentClass}
         style={{
           whiteSpace: "pre-wrap",
           overflowX: "auto",
           marginLeft: "0.5rem",
         }}
       >
+        <Prefix cmd={line.cmd} />
         {line.group ? (
           <details
             style={{ display: "inline", cursor: "pointer" }}

@@ -82,19 +82,21 @@ const App = () => {
               value=""
               onChange={(event) => {
                 event.preventDefault();
-                let example = "";
-                switch (event.target.value) {
-                  case "ansi":
-                    example = examples.ansi;
-                    break;
-                }
+                const example =
+                  {
+                    ansi8: examples.ansi8,
+                    ansi24: examples.ansi24,
+                    commands: examples.commands,
+                  }[event.target.value] || "";
                 onChange(example);
               }}
             >
               <Select.Option value="" disabled>
                 Examples
               </Select.Option>
-              <Select.Option value="ansi">ANSI Colors</Select.Option>
+              <Select.Option value="ansi8">8-bit ANSI Colors</Select.Option>
+              <Select.Option value="ansi24">24-bit ANSI Colors</Select.Option>
+              <Select.Option value="commands">Commands</Select.Option>
             </Select>
             <TextInput
               leadingVisual={SearchIcon}

@@ -63,12 +63,9 @@ const cssColorFor = (color: Color): string => {
     return `rgb(${color.join(",")})`;
   }
 
-  console.log("color", color);
-
   const name = colors[color];
 
   if (!name) {
-    console.log("unknown color", color);
     return "inherit";
   }
 

@@ -7,12 +7,16 @@ export enum Command {
   Command = "command",
   Debug = "debug",
   Error = "error",
-  Info = "info",
-  Notice = "notice",
-  Verbose = "verbose",
+  Section = "section",
   Warning = "warning",
   Group = "group",
   EndGroup = "endgroup",
+  Notice = "notice",
+  // These exist in source code, but don't seem to be actually used.
+  // Plain = "plain",
+  // Info = "info",
+  // Verbose = "verbose",
+  // Info = "info",
 }
 
 export class Group {
