@@ -7,8 +7,8 @@ export interface StylesOptions {
   italic?: boolean;
   underline?: boolean;
   highlight?: boolean;
-  color?: Color;
-  background?: Color;
+  fg?: Color;
+  bg?: Color;
 }
 
 export class Styles {
@@ -16,23 +16,23 @@ export class Styles {
   italic: boolean;
   underline: boolean;
   highlight: boolean;
-  color?: Color;
-  background?: Color;
+  fg?: Color;
+  bg?: Color;
 
   constructor({
     bold = false,
     italic = false,
     underline = false,
     highlight = false,
-    color = undefined,
-    background = undefined,
+    fg = undefined,
+    bg = undefined,
   }: StylesOptions = {}) {
     this.bold = bold;
     this.italic = italic;
     this.underline = underline;
     this.highlight = highlight;
-    this.color = color;
-    this.background = background;
+    this.fg = fg;
+    this.bg = bg;
   }
 
   copy(): Styles {
@@ -41,8 +41,8 @@ export class Styles {
       italic: this.italic,
       underline: this.underline,
       highlight: this.highlight,
-      color: this.color,
-      background: this.background,
+      fg: this.fg,
+      bg: this.bg,
     });
   }
 
@@ -52,19 +52,22 @@ export class Styles {
       this.italic === other.italic &&
       this.underline === other.underline &&
       this.highlight === other.highlight &&
-      this.color === other.color &&
-      this.background === other.background
+      this.fg === other.fg &&
+      this.bg === other.bg
     );
   }
 
   isEmpty(): boolean {
+    const hasFg = typeof this.fg !== "undefined";
+    const hasBg = typeof this.bg !== "undefined";
+
     return (
       !this.bold &&
       !this.italic &&
       !this.underline &&
       !this.highlight &&
-      !this.color &&
-      !this.background
+      !hasFg &&
+      !hasBg
     );
   }
 
@@ -80,8 +83,8 @@ export class Styles {
         this.bold = false;
         this.italic = false;
         this.underline = false;
-        this.color = undefined;
-        this.background = undefined;
+        this.fg = undefined;
+        this.bg = undefined;
         // note: does not reset highlight
         break;
       case ANSICode.Bold:
@@ -104,30 +107,30 @@ export class Styles {
         break;
       case ANSICode.SetFG8:
         if (seq.args?.length === 1) {
-          this.color = seq.args[0];
+          this.fg = seq.args[0];
         }
         break;
       case ANSICode.DefaultFG:
-        this.color = undefined;
+        this.fg = undefined;
         break;
       case ANSICode.SetBG8:
         if (seq.args?.length === 1) {
-          this.background = seq.args[0];
+          this.bg = seq.args[0];
         }
         break;
       case ANSICode.DefaultBG:
-        this.background = undefined;
+        this.bg = undefined;
         break;
       case ANSICode.SetFG24:
         if (seq.args?.length === 3) {
           const [r, g, b] = seq.args;
-          this.color = [r, g, b];
+          this.fg = [r, g, b];
         }
         break;
       case ANSICode.SetBG24:
         if (seq.args?.length === 3) {
           const [r, g, b] = seq.args;
-          this.background = [r, g, b];
+          this.bg = [r, g, b];
         }
         break;
     }

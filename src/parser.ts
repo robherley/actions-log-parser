@@ -1,14 +1,18 @@
 import { Line, Command } from "./line";
 
+export type LinePointer = number | [number, number];
+
 export class LogParser {
-  idx: number;
+  counter: number;
   seenIDs: Set<string>;
   search: string;
   matches: number;
   lines: Line[];
+  _visibleLines?: LinePointer[];
+  onVisibleLinesChange?: (lines?: LinePointer[]) => void;
 
   constructor() {
-    this.idx = 1;
+    this.counter = 1;
     this.seenIDs = new Set();
     this.search = "";
     this.matches = 0;
@@ -16,11 +20,51 @@ export class LogParser {
   }
 
   reset() {
-    this.idx = 1;
+    this.counter = 1;
     this.seenIDs = new Set();
-    this.search = "";
     this.matches = 0;
     this.lines = [];
+    this.resetVisibleLines();
+  }
+
+  getVisibleLines(): LinePointer[] {
+    if (this._visibleLines) {
+      return this._visibleLines;
+    }
+
+    // build a mapping of visible lines to their locations in the array for fast lookups
+    this._visibleLines = [];
+    for (let i = 0; i < this.lines.length; i++) {
+      this._visibleLines.push(i);
+
+      const line = this.lines[i];
+      if (line.group?.open) {
+        // if we're in an open group, add all of its children
+        for (let j = 0; j < line.group.children.length; j++) {
+          this._visibleLines.push([i, j]);
+        }
+        continue;
+      }
+    }
+
+    this.onVisibleLinesChange?.(this._visibleLines);
+    return this._visibleLines;
+  }
+
+  getVisibleLine(idx: number): Line | undefined {
+    const mapping = this.getVisibleLines()[idx];
+    if (typeof mapping === "undefined") {
+      return;
+    }
+    if (typeof mapping === "number") {
+      return this.lines[mapping];
+    }
+    return this.lines[mapping[0]].group?.children[mapping[1]];
+  }
+
+  resetVisibleLines() {
+    this._visibleLines = undefined;
+    this.onVisibleLinesChange?.(this.getVisibleLines());
   }
 
   add(raw: string, id?: string) {
@@ -32,7 +76,7 @@ export class LogParser {
       this.seenIDs.add(id);
     }
 
-    const line = new Line(this.idx, raw, id);
+    const line = new Line(this.counter, raw, id);
     if (this.search) {
       line.highlight(this.search);
     }
@@ -51,7 +95,10 @@ export class LogParser {
         break;
       }
       case Command.Group: {
-        // close any open group
+        // add a callback to reset visible lines when the group changes
+        line.group!.onGroupChange(() => this.resetVisibleLines());
+
+        // we'll want to close any open group
         this.endGroup();
         this.lines.push(line);
         break;
@@ -67,8 +114,9 @@ export class LogParser {
       }
     }
 
-    this.idx++;
+    this.counter++;
     this.matches += line.highlights.size;
+    this.resetVisibleLines();
   }
 
   addRaw(raw: string) {

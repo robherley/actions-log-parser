@@ -54,7 +54,7 @@ describe("build", () => {
     expect(elements).toEqual([
       {
         content: "bold cyan",
-        style: new Styles({ bold: true, color: 6 }),
+        style: new Styles({ bold: true, fg: 6 }),
       },
     ]);
   });
@@ -79,11 +79,11 @@ describe("build", () => {
           "https://",
           {
             content: "re",
-            style: new Styles({ color: 1, highlight: true }),
+            style: new Styles({ fg: 1, highlight: true }),
           },
           {
             content: "b.gg",
-            style: new Styles({ color: 1 }),
+            style: new Styles({ fg: 1 }),
           },
         ],
       },

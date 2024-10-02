@@ -18,7 +18,23 @@ export enum Command {
 export class Group {
   children: Line[] = [];
   ended: boolean = false;
-  open: boolean = true;
+  _open: boolean = true;
+  _cb?: (open: boolean) => void;
+
+  get open(): boolean {
+    return this._open;
+  }
+
+  set open(open: boolean) {
+    this._open = open;
+    if (this._cb) {
+      this._cb(open);
+    }
+  }
+
+  onGroupChange(callback: (open: boolean) => void) {
+    this._cb = callback;
+  }
 
   end() {
     this.ended = true;

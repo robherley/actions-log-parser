@@ -102,4 +102,34 @@ describe("LogParser", () => {
     parser.add("----> bar <----");
     expect(parser.getMatches()).toBe(2);
   });
+
+  it("handles visible lines", () => {
+    const lines = [
+      "foo",
+      "##[group]start group",
+      "inside group",
+      "##[endgroup]",
+      "outside group",
+      "##[group]start another group",
+      "inside another group",
+      "##[endgroup]",
+      "bar",
+      "baz",
+    ];
+
+    const parser = new LogParser();
+    for (const line of lines) {
+      parser.add(line);
+    }
+
+    expect(parser.getVisibleLines()).toEqual([0, 1, 2, 3, 4, 5]);
+
+    parser.lines[1].group!.open = true;
+
+    expect(parser.getVisibleLines()).toEqual([0, 1, [1, 0], 2, 3, 4, 5]);
+
+    parser.add("anotha one");
+
+    expect(parser.getVisibleLines()).toEqual([0, 1, [1, 0], 2, 3, 4, 5, 6]);
+  });
 });

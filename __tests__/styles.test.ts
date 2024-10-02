@@ -5,7 +5,7 @@ describe("Style", () => {
   it("is empty", () => {
     const style = new Styles();
     expect(style.isEmpty()).toBe(true);
-    style.bold = true;
+    style.fg = 0;
     expect(style.isEmpty()).toBe(false);
   });
 
@@ -18,17 +18,17 @@ describe("Style", () => {
       [{ code: ANSICode.NotBold }, new Styles({ bold: false })],
       [{ code: ANSICode.NotItalic }, new Styles({ italic: false })],
       [{ code: ANSICode.NotUnderline }, new Styles({ underline: false })],
-      [{ code: ANSICode.SetFG8, args: [1] }, new Styles({ color: 1 })],
-      [{ code: ANSICode.DefaultFG }, new Styles({ color: undefined })],
-      [{ code: ANSICode.SetBG8, args: [1] }, new Styles({ background: 1 })],
-      [{ code: ANSICode.DefaultBG }, new Styles({ background: undefined })],
+      [{ code: ANSICode.SetFG8, args: [1] }, new Styles({ fg: 1 })],
+      [{ code: ANSICode.DefaultFG }, new Styles({ fg: undefined })],
+      [{ code: ANSICode.SetBG8, args: [1] }, new Styles({ bg: 1 })],
+      [{ code: ANSICode.DefaultBG }, new Styles({ bg: undefined })],
       [
         { code: ANSICode.SetFG24, args: [1, 2, 3] },
-        new Styles({ color: [1, 2, 3] }),
+        new Styles({ fg: [1, 2, 3] }),
       ],
       [
         { code: ANSICode.SetBG24, args: [1, 2, 3] },
-        new Styles({ background: [1, 2, 3] }),
+        new Styles({ bg: [1, 2, 3] }),
       ],
     ];
 
@@ -47,15 +47,15 @@ describe("Style", () => {
           bold: true,
           italic: true,
           underline: true,
-          color: 1,
-          background: 1,
+          fg: 1,
+          bg: 1,
         }),
       ],
       [{ code: ANSICode.NotBold }, new Styles({ bold: true })],
       [{ code: ANSICode.NotItalic }, new Styles({ italic: true })],
       [{ code: ANSICode.NotUnderline }, new Styles({ underline: true })],
-      [{ code: ANSICode.DefaultFG }, new Styles({ color: 1 })],
-      [{ code: ANSICode.DefaultBG }, new Styles({ background: 1 })],
+      [{ code: ANSICode.DefaultFG }, new Styles({ fg: 1 })],
+      [{ code: ANSICode.DefaultBG }, new Styles({ bg: 1 })],
     ];
 
     for (const [seq, before] of cases) {
