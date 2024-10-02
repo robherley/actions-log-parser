@@ -1,5 +1,29 @@
 import { CSSProperties } from "react";
-import type { Color, Styles } from "../../../src/index";
+import { Command, type Color, type Styles } from "../../../src/index";
+
+export function commandToLineContainerClass(command?: Command): string {
+  switch (command) {
+    case Command.Error:
+      return "color-bg-danger";
+    case Command.Warning:
+      return "color-bg-attention";
+    default:
+      return "";
+  }
+}
+
+export function commandToLineContentClass(command?: Command): string {
+  switch (command) {
+    case Command.Command:
+      return "color-fg-accent";
+    case Command.Debug:
+      return "color-fg-done";
+    case Command.Section:
+      return "text-bold color-fg-success";
+    default:
+      return "";
+  }
+}
 
 export function stylesToAttributes(styles: Styles): {
   style: CSSProperties;

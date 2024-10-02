@@ -2,17 +2,39 @@ import { useRef } from "react";
 import styled from "styled-components";
 import { Command } from "../../../src/index";
 import type { Element, LinePointer, LogParser, Line } from "../../../src/index";
-import { Box } from "@primer/react";
+import { Box, themeGet } from "@primer/react";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { stylesToAttributes } from "../util/attributes";
+import {
+  commandToLineContainerClass,
+  commandToLineContentClass,
+  stylesToAttributes,
+} from "../util/attributes";
 
-const StyledLine = styled.div`
+const LineContainer = styled.div`
   display: flex;
   line-height: 20px;
 
   &:hover {
-    background-color: var(--bgColor-neutral-muted) !important;
+    background-color: ${themeGet("colors.canvas.subtle")} !important;
   }
+`;
+
+const LineNumber = styled.span`
+  display: inline-block;
+  color: ${themeGet("colors.fg.muted")};
+  flex-shrink: 0;
+  width: 48px;
+  text-align: right;
+  user-select: none;
+`;
+
+const LineContent = styled.span`
+  display: inline-block;
+  flex: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin-left: 0.5rem;
+  overflow-x: auto;
 `;
 
 const Prefix: React.FC<{ cmd?: Command }> = ({ cmd }) => {
@@ -40,48 +62,14 @@ const RenderedLine: React.FC<{ line?: Line }> = ({ line }) => {
     .elements()
     .map((element, i) => <Element key={i} element={element} />);
 
-  const lineClass =
-    {
-      [Command.Error]: "color-bg-danger",
-      [Command.Warning]: "color-bg-attention",
-    }[line.cmd as string] || "";
-
-  const contentClass =
-    {
-      [Command.Command]: "color-fg-accent",
-      [Command.Debug]: "color-fg-done",
-      [Command.Section]: "text-bold color-fg-success",
-    }[line.cmd as string] || "";
-
   return (
-    <StyledLine className={lineClass}>
-      <Box
-        as="span"
-        sx={{
-          display: "inline-block",
-          color: "fg.muted",
-          flexShrink: 0,
-          width: "48px",
-          textAlign: "right",
-          userSelect: "none",
-        }}
-      >
-        {line.n}
-      </Box>
-      <span
-        className={contentClass}
-        style={{
-          whiteSpace: "pre-wrap",
-          overflowX: "auto",
-          marginLeft: "0.5rem",
-          width: "100%",
-        }}
-      >
+    <LineContainer className={commandToLineContainerClass(line.cmd)}>
+      <LineNumber>{line.n}</LineNumber>
+      <LineContent className={commandToLineContentClass(line.cmd)}>
         <Prefix cmd={line.cmd} />
         {line.parent && "  "}
         {line.group ? (
           <details
-            style={{ display: "block", cursor: "pointer" }}
             open={line.group.open}
             onClick={(event) => {
               event.preventDefault();
@@ -93,8 +81,8 @@ const RenderedLine: React.FC<{ line?: Line }> = ({ line }) => {
         ) : (
           elements
         )}
-      </span>
-    </StyledLine>
+      </LineContent>
+    </LineContainer>
   );
 };
 
