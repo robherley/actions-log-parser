@@ -63,6 +63,7 @@ const RenderedLine: React.FC<{ line?: Line }> = ({ line }) => {
           flexShrink: 0,
           width: "48px",
           textAlign: "right",
+          userSelect: "none",
         }}
       >
         {line.n}
