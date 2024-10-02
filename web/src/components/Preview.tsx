@@ -1,9 +1,19 @@
 import { useRef } from "react";
+import styled from "styled-components";
 import { Command } from "../../../src/index";
 import type { Element, LinePointer, LogParser, Line } from "../../../src/index";
 import { Box } from "@primer/react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { stylesToAttributes } from "../util/attributes";
+
+const StyledLine = styled.div`
+  display: flex;
+  line-height: 20px;
+
+  &:hover {
+    background-color: var(--bgColor-neutral-muted) !important;
+  }
+`;
 
 const Prefix: React.FC<{ cmd?: Command }> = ({ cmd }) => {
   switch (cmd) {
@@ -13,6 +23,9 @@ const Prefix: React.FC<{ cmd?: Command }> = ({ cmd }) => {
       return <span className="text-bold color-fg-attention">{cmd}: </span>;
     case Command.Notice:
       return <span className="text-bold">{cmd}: </span>;
+    case Command.Debug:
+      // for debug, we actually show the command prefix
+      return <span>##[{cmd}]</span>;
     default:
       return null;
   }
@@ -41,14 +54,14 @@ const RenderedLine: React.FC<{ line?: Line }> = ({ line }) => {
     }[line.cmd as string] || "";
 
   return (
-    <div className={lineClass} style={{ display: "flex" }}>
+    <StyledLine className={lineClass}>
       <Box
         as="span"
         sx={{
           display: "inline-block",
           color: "fg.muted",
           flexShrink: 0,
-          width: "2rem",
+          width: "48px",
           textAlign: "right",
         }}
       >
@@ -60,12 +73,14 @@ const RenderedLine: React.FC<{ line?: Line }> = ({ line }) => {
           whiteSpace: "pre-wrap",
           overflowX: "auto",
           marginLeft: "0.5rem",
+          width: "100%",
         }}
       >
         <Prefix cmd={line.cmd} />
+        {line.parent && "  "}
         {line.group ? (
           <details
-            style={{ display: "inline", cursor: "pointer" }}
+            style={{ display: "block", cursor: "pointer" }}
             open={line.group.open}
             onClick={(event) => {
               event.preventDefault();
@@ -78,7 +93,7 @@ const RenderedLine: React.FC<{ line?: Line }> = ({ line }) => {
           elements
         )}
       </span>
-    </div>
+    </StyledLine>
   );
 };
 
@@ -118,7 +133,7 @@ const Preview: React.FC<{
   const rowVirtualizer = useVirtualizer({
     count: lines.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 16,
+    estimateSize: () => 20,
   });
 
   return (

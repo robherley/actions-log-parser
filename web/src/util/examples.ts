@@ -1,5 +1,7 @@
-export default {
-  ansi8: `[30mblack[0m
+const examples: { [key: string]: { label: string; raw: string } } = {
+  ansi8: {
+    label: "ANSI 8-bit Colors",
+    raw: `[30mblack[0m
 [40mblack background[0m
 [31mred[0m
 [41mred background[0m
@@ -31,7 +33,10 @@ export default {
 [106mbright cyan background[0m
 [97mbright white[0m
 [107mbright white background[0m`,
-  ansi24: `[38;2;10;228;145m█[39m[38;2;12;230;141m█[39m[38;2;13;233;136m╗[39m[38;2;15;235;132m [39m[38;2;17;237;128m [39m[38;2;20;239;124m [39m[38;2;22;241;119m [39m[38;2;24;243;115m [39m[38;2;27;245;111m [39m[38;2;29;246;107m█[39m[38;2;32;248;103m█[39m[38;2;35;249;98m█[39m[38;2;38;250;94m█[39m[38;2;41;251;90m█[39m[38;2;44;252;86m█[39m[38;2;47;253;82m╗[39m[38;2;51;253;78m [39m[38;2;54;254;74m [39m[38;2;58;254;71m█[39m[38;2;61;254;67m█[39m[38;2;65;254;63m█[39m[38;2;68;254;60m█[39m[38;2;72;254;56m█[39m[38;2;76;254;53m█[39m[38;2;80;253;49m╗[39m[38;2;84;253;46m [39m[38;2;88;252;43m█[39m[38;2;92;251;40m█[39m[38;2;96;250;37m█[39m[38;2;100;249;34m█[39m[38;2;104;247;31m█[39m[38;2;109;246;28m█[39m[38;2;113;244;26m█[39m[38;2;117;242;23m╗[39m[38;2;121;241;21m[39m
+  },
+  ansi24: {
+    label: "ANSI 24-bit Colors",
+    raw: `[38;2;10;228;145m█[39m[38;2;12;230;141m█[39m[38;2;13;233;136m╗[39m[38;2;15;235;132m [39m[38;2;17;237;128m [39m[38;2;20;239;124m [39m[38;2;22;241;119m [39m[38;2;24;243;115m [39m[38;2;27;245;111m [39m[38;2;29;246;107m█[39m[38;2;32;248;103m█[39m[38;2;35;249;98m█[39m[38;2;38;250;94m█[39m[38;2;41;251;90m█[39m[38;2;44;252;86m█[39m[38;2;47;253;82m╗[39m[38;2;51;253;78m [39m[38;2;54;254;74m [39m[38;2;58;254;71m█[39m[38;2;61;254;67m█[39m[38;2;65;254;63m█[39m[38;2;68;254;60m█[39m[38;2;72;254;56m█[39m[38;2;76;254;53m█[39m[38;2;80;253;49m╗[39m[38;2;84;253;46m [39m[38;2;88;252;43m█[39m[38;2;92;251;40m█[39m[38;2;96;250;37m█[39m[38;2;100;249;34m█[39m[38;2;104;247;31m█[39m[38;2;109;246;28m█[39m[38;2;113;244;26m█[39m[38;2;117;242;23m╗[39m[38;2;121;241;21m[39m
 [38;2;15;235;132m█[39m[38;2;17;237;128m█[39m[38;2;20;239;124m║[39m[38;2;22;241;119m [39m[38;2;24;243;115m [39m[38;2;27;245;111m [39m[38;2;29;246;107m [39m[38;2;32;248;103m [39m[38;2;35;249;98m█[39m[38;2;38;250;94m█[39m[38;2;41;251;90m╔[39m[38;2;44;252;86m═[39m[38;2;47;253;82m═[39m[38;2;51;253;78m═[39m[38;2;54;254;74m█[39m[38;2;58;254;71m█[39m[38;2;61;254;67m╗[39m[38;2;65;254;63m█[39m[38;2;68;254;60m█[39m[38;2;72;254;56m╔[39m[38;2;76;254;53m═[39m[38;2;80;253;49m═[39m[38;2;84;253;46m═[39m[38;2;88;252;43m═[39m[38;2;92;251;40m╝[39m[38;2;96;250;37m [39m[38;2;100;249;34m█[39m[38;2;104;247;31m█[39m[38;2;109;246;28m╔[39m[38;2;113;244;26m═[39m[38;2;117;242;23m═[39m[38;2;121;241;21m═[39m[38;2;125;239;19m═[39m[38;2;130;236;16m╝[39m[38;2;134;234;14m[39m
 [38;2;22;241;119m█[39m[38;2;24;243;115m█[39m[38;2;27;245;111m║[39m[38;2;29;246;107m [39m[38;2;32;248;103m [39m[38;2;35;249;98m [39m[38;2;38;250;94m [39m[38;2;41;251;90m [39m[38;2;44;252;86m█[39m[38;2;47;253;82m█[39m[38;2;51;253;78m║[39m[38;2;54;254;74m [39m[38;2;58;254;71m [39m[38;2;61;254;67m [39m[38;2;65;254;63m█[39m[38;2;68;254;60m█[39m[38;2;72;254;56m║[39m[38;2;76;254;53m█[39m[38;2;80;253;49m█[39m[38;2;84;253;46m║[39m[38;2;88;252;43m [39m[38;2;92;251;40m [39m[38;2;96;250;37m█[39m[38;2;100;249;34m█[39m[38;2;104;247;31m█[39m[38;2;109;246;28m╗[39m[38;2;113;244;26m█[39m[38;2;117;242;23m█[39m[38;2;121;241;21m█[39m[38;2;125;239;19m█[39m[38;2;130;236;16m█[39m[38;2;134;234;14m█[39m[38;2;138;232;13m█[39m[38;2;142;229;11m╗[39m[38;2;146;227;9m[39m
 [38;2;29;246;107m█[39m[38;2;32;248;103m█[39m[38;2;35;249;98m║[39m[38;2;38;250;94m [39m[38;2;41;251;90m [39m[38;2;44;252;86m [39m[38;2;47;253;82m [39m[38;2;51;253;78m [39m[38;2;54;254;74m█[39m[38;2;58;254;71m█[39m[38;2;61;254;67m║[39m[38;2;65;254;63m [39m[38;2;68;254;60m [39m[38;2;72;254;56m [39m[38;2;76;254;53m█[39m[38;2;80;253;49m█[39m[38;2;84;253;46m║[39m[38;2;88;252;43m█[39m[38;2;92;251;40m█[39m[38;2;96;250;37m║[39m[38;2;100;249;34m [39m[38;2;104;247;31m [39m[38;2;109;246;28m [39m[38;2;113;244;26m█[39m[38;2;117;242;23m█[39m[38;2;121;241;21m║[39m[38;2;125;239;19m╚[39m[38;2;130;236;16m═[39m[38;2;134;234;14m═[39m[38;2;138;232;13m═[39m[38;2;142;229;11m═[39m[38;2;146;227;9m█[39m[38;2;151;224;8m█[39m[38;2;155;221;6m║[39m[38;2;159;218;5m[39m
@@ -52,7 +57,10 @@ export default {
 [38;2;91;40;251m╚[39m[38;2;87;44;252m█[39m[38;2;83;47;253m█[39m[38;2;79;50;253m█[39m[38;2;75;54;254m█[39m[38;2;71;57;254m█[39m[38;2;68;61;254m█[39m[38;2;64;64;254m╗[39m[38;2;60;68;254m╚[39m[38;2;57;72;254m█[39m[38;2;53;76;254m█[39m[38;2;50;79;253m█[39m[38;2;46;83;253m█[39m[38;2;43;87;252m█[39m[38;2;40;91;251m█[39m[38;2;37;95;250m╔[39m[38;2;34;100;249m╝[39m[38;2;31;104;247m╚[39m[38;2;29;108;246m█[39m[38;2;26;112;244m█[39m[38;2;24;116;243m█[39m[38;2;21;120;241m█[39m[38;2;19;125;239m█[39m[38;2;17;129;237m█[39m[38;2;15;133;235m╔[39m[38;2;13;137;232m╝[39m[38;2;11;142;230m█[39m[38;2;10;146;227m█[39m[38;2;8;150;224m█[39m[38;2;7;154;222m█[39m[38;2;5;158;219m█[39m[38;2;4;162;216m█[39m[38;2;3;166;213m█[39m[38;2;3;170;210m╗[39m[38;2;2;174;206m[39m
 [38;2;79;50;253m [39m[38;2;75;54;254m╚[39m[38;2;71;57;254m═[39m[38;2;68;61;254m═[39m[38;2;64;64;254m═[39m[38;2;60;68;254m═[39m[38;2;57;72;254m═[39m[38;2;53;76;254m╝[39m[38;2;50;79;253m [39m[38;2;46;83;253m╚[39m[38;2;43;87;252m═[39m[38;2;40;91;251m═[39m[38;2;37;95;250m═[39m[38;2;34;100;249m═[39m[38;2;31;104;247m═[39m[38;2;29;108;246m╝[39m[38;2;26;112;244m [39m[38;2;24;116;243m [39m[38;2;21;120;241m╚[39m[38;2;19;125;239m═[39m[38;2;17;129;237m═[39m[38;2;15;133;235m═[39m[38;2;13;137;232m═[39m[38;2;11;142;230m═[39m[38;2;10;146;227m╝[39m[38;2;8;150;224m [39m[38;2;7;154;222m╚[39m[38;2;5;158;219m═[39m[38;2;4;162;216m═[39m[38;2;3;166;213m═[39m[38;2;3;170;210m═[39m[38;2;2;174;206m═[39m[38;2;1;178;203m═[39m[38;2;1;182;199m╝[39m[38;2;1;186;196m[39m
 [38;2;68;61;254m [39m[38;2;64;64;254m [39m[38;2;60;68;254m [39m[38;2;57;72;254m [39m[38;2;53;76;254m [39m[38;2;50;79;253m [39m[38;2;46;83;253m [39m[38;2;43;87;252m [39m[38;2;40;91;251m [39m[38;2;37;95;250m [39m[38;2;34;100;249m [39m[38;2;31;104;247m [39m[38;2;29;108;246m [39m[38;2;26;112;244m [39m[38;2;24;116;243m [39m[38;2;21;120;241m [39m[38;2;19;125;239m [39m[38;2;17;129;237m [39m[38;2;15;133;235m [39m[38;2;13;137;232m [39m[38;2;11;142;230m [39m[38;2;10;146;227m [39m[38;2;8;150;224m [39m[38;2;7;154;222m [39m[38;2;5;158;219m [39m[38;2;4;162;216m [39m[38;2;3;166;213m [39m[38;2;3;170;210m [39m[38;2;2;174;206m [39m[38;2;1;178;203m [39m[38;2;1;182;199m [39m[38;2;1;186;196m [39m[38;2;1;190;192m [39m[38;2;1;193;189m [39m[38;2;1;197;185m[39m`,
-  commands: `##[command]command
+  },
+  commands: {
+    label: "Commands",
+    raw: `##[command]command
 ##[debug]debug
 ##[error]error
 ##[section]section
@@ -63,4 +71,163 @@ child 2
 child 3
 ##[endgroup]endgroup
 ##[notice]notice`,
+  },
+  realLogs: {
+    label: "Real Logs",
+    raw: String.raw`2024-10-02T02:07:35.7104664Z Current runner version: '2.319.1'
+2024-10-02T02:07:35.7131148Z ##[group]Operating System
+2024-10-02T02:07:35.7131813Z Ubuntu
+2024-10-02T02:07:35.7132110Z 22.04.5
+2024-10-02T02:07:35.7132535Z LTS
+2024-10-02T02:07:35.7132882Z ##[endgroup]
+2024-10-02T02:07:35.7133221Z ##[group]Runner Image
+2024-10-02T02:07:35.7133725Z Image: ubuntu-22.04
+2024-10-02T02:07:35.7134140Z Version: 20240922.1.0
+2024-10-02T02:07:35.7135085Z Included Software: https://github.com/actions/runner-images/blob/ubuntu22/20240922.1/images/ubuntu/Ubuntu2204-Readme.md
+2024-10-02T02:07:35.7137096Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu22%2F20240922.1
+2024-10-02T02:07:35.7138008Z ##[endgroup]
+2024-10-02T02:07:35.7138369Z ##[group]Runner Image Provisioner
+2024-10-02T02:07:35.7138918Z 2.0.384.1
+2024-10-02T02:07:35.7139285Z ##[endgroup]
+2024-10-02T02:07:35.7154651Z ##[group]GITHUB_TOKEN Permissions
+2024-10-02T02:07:35.7156470Z Contents: read
+2024-10-02T02:07:35.7156962Z Metadata: read
+2024-10-02T02:07:35.7157558Z Packages: read
+2024-10-02T02:07:35.7158067Z ##[endgroup]
+2024-10-02T02:07:35.7161244Z Secret source: Actions
+2024-10-02T02:07:35.7161856Z Prepare workflow directory
+2024-10-02T02:07:35.7799176Z Prepare all required actions
+2024-10-02T02:07:35.7962315Z Getting action download info
+2024-10-02T02:07:36.0712072Z Download action repository 'actions/checkout@v4' (SHA:package_f48a19fc834a937f89d6b62878fe6af2603013aeaf6d36c37ec1ba09e18eea1f)
+2024-10-02T02:07:36.4096576Z Download action repository 'actions/setup-node@v4' (SHA:package_c6641e273d9f0bb6098ec9bc014e17251310b74fe49f2e082364cdcb044a7814)
+2024-10-02T02:07:36.8541034Z Complete job name: test
+2024-10-02T02:07:36.9505466Z ##[group]Run actions/checkout@v4
+2024-10-02T02:07:36.9506416Z with:
+2024-10-02T02:07:36.9506849Z   repository: robherley/actionslogs-js
+2024-10-02T02:07:36.9507656Z   token: ***
+2024-10-02T02:07:36.9508180Z   ssh-strict: true
+2024-10-02T02:07:36.9508601Z   ssh-user: git
+2024-10-02T02:07:36.9509005Z   persist-credentials: true
+2024-10-02T02:07:36.9509595Z   clean: true
+2024-10-02T02:07:36.9510024Z   sparse-checkout-cone-mode: true
+2024-10-02T02:07:36.9510539Z   fetch-depth: 1
+2024-10-02T02:07:36.9511007Z   fetch-tags: false
+2024-10-02T02:07:36.9511453Z   show-progress: true
+2024-10-02T02:07:36.9511866Z   lfs: false
+2024-10-02T02:07:36.9512301Z   submodules: false
+2024-10-02T02:07:36.9512736Z   set-safe-directory: true
+2024-10-02T02:07:36.9513196Z ##[endgroup]
+2024-10-02T02:07:37.2092795Z Syncing repository: robherley/actionslogs-js
+2024-10-02T02:07:37.2095015Z ##[group]Getting Git version info
+2024-10-02T02:07:37.2096564Z Working directory is '/home/runner/work/actionslogs-js/actionslogs-js'
+2024-10-02T02:07:37.2097989Z [command]/usr/bin/git version
+2024-10-02T02:07:37.2120205Z git version 2.46.1
+2024-10-02T02:07:37.2146735Z ##[endgroup]
+2024-10-02T02:07:37.2168864Z Temporarily overriding HOME='/home/runner/work/_temp/fab012f3-313e-469c-9e8b-589b04a6a166' before making global git config changes
+2024-10-02T02:07:37.2170658Z Adding repository directory to the temporary git global config as a safe directory
+2024-10-02T02:07:37.2174534Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/actionslogs-js/actionslogs-js
+2024-10-02T02:07:37.2217292Z Deleting the contents of '/home/runner/work/actionslogs-js/actionslogs-js'
+2024-10-02T02:07:37.2221220Z ##[group]Initializing the repository
+2024-10-02T02:07:37.2226266Z [command]/usr/bin/git init /home/runner/work/actionslogs-js/actionslogs-js
+2024-10-02T02:07:37.2320446Z hint: Using 'master' as the name for the initial branch. This default branch name
+2024-10-02T02:07:37.2322463Z hint: is subject to change. To configure the initial branch name to use in all
+2024-10-02T02:07:37.2323896Z hint: of your new repositories, which will suppress this warning, call:
+2024-10-02T02:07:37.2324670Z hint:
+2024-10-02T02:07:37.2325364Z hint: 	git config --global init.defaultBranch <name>
+2024-10-02T02:07:37.2326436Z hint:
+2024-10-02T02:07:37.2327695Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2024-10-02T02:07:37.2330280Z hint: 'development'. The just-created branch can be renamed via this command:
+2024-10-02T02:07:37.2331439Z hint:
+2024-10-02T02:07:37.2331881Z hint: 	git branch -m <name>
+2024-10-02T02:07:37.2333310Z Initialized empty Git repository in /home/runner/work/actionslogs-js/actionslogs-js/.git/
+2024-10-02T02:07:37.2339910Z [command]/usr/bin/git remote add origin https://github.com/robherley/actionslogs-js
+2024-10-02T02:07:37.2375488Z ##[endgroup]
+2024-10-02T02:07:37.2376689Z ##[group]Disabling automatic garbage collection
+2024-10-02T02:07:37.2380642Z [command]/usr/bin/git config --local gc.auto 0
+2024-10-02T02:07:37.2414325Z ##[endgroup]
+2024-10-02T02:07:37.2415824Z ##[group]Setting up auth
+2024-10-02T02:07:37.2422446Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2024-10-02T02:07:37.2454032Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2024-10-02T02:07:37.2799444Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2024-10-02T02:07:37.2831686Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2024-10-02T02:07:37.3061410Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2024-10-02T02:07:37.3099034Z ##[endgroup]
+2024-10-02T02:07:37.3100204Z ##[group]Fetching the repository
+2024-10-02T02:07:37.3108236Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +31d743dd537abb056b777b7a21c7e2d73c8aef08:refs/remotes/origin/main
+2024-10-02T02:07:37.7404983Z From https://github.com/robherley/actionslogs-js
+2024-10-02T02:07:37.7406543Z  * [new ref]         31d743dd537abb056b777b7a21c7e2d73c8aef08 -> origin/main
+2024-10-02T02:07:37.7441106Z ##[endgroup]
+2024-10-02T02:07:37.7444145Z ##[group]Determining the checkout info
+2024-10-02T02:07:37.7445401Z ##[endgroup]
+2024-10-02T02:07:37.7450704Z [command]/usr/bin/git sparse-checkout disable
+2024-10-02T02:07:37.7511578Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2024-10-02T02:07:37.7540976Z ##[group]Checking out the ref
+2024-10-02T02:07:37.7545555Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2024-10-02T02:07:37.7630498Z Switched to a new branch 'main'
+2024-10-02T02:07:37.7633535Z branch 'main' set up to track 'origin/main'.
+2024-10-02T02:07:37.7643171Z ##[endgroup]
+2024-10-02T02:07:37.7684889Z [command]/usr/bin/git log -1 --format=%H
+2024-10-02T02:07:37.7709733Z 31d743dd537abb056b777b7a21c7e2d73c8aef08
+2024-10-02T02:07:37.8185392Z ##[group]Run actions/setup-node@v4
+2024-10-02T02:07:37.8186190Z with:
+2024-10-02T02:07:37.8186572Z   node-version: 20
+2024-10-02T02:07:37.8186955Z   always-auth: false
+2024-10-02T02:07:37.8187408Z   check-latest: false
+2024-10-02T02:07:37.8187961Z   token: ***
+2024-10-02T02:07:37.8188326Z ##[endgroup]
+2024-10-02T02:07:37.9854442Z Found in cache @ /opt/hostedtoolcache/node/20.17.0/x64
+2024-10-02T02:07:37.9860867Z ##[group]Environment details
+2024-10-02T02:07:38.3435624Z node: v20.17.0
+2024-10-02T02:07:38.3436711Z npm: 10.8.2
+2024-10-02T02:07:38.3437303Z yarn: 1.22.22
+2024-10-02T02:07:38.3438273Z ##[endgroup]
+2024-10-02T02:07:38.3569234Z ##[group]Run npm ci
+2024-10-02T02:07:38.3569762Z [36;1mnpm ci[0m
+2024-10-02T02:07:38.3597959Z shell: /usr/bin/bash -e {0}
+2024-10-02T02:07:38.3598501Z ##[endgroup]
+2024-10-02T02:07:40.4241405Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2024-10-02T02:07:40.7952479Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2024-10-02T02:07:41.5536372Z 
+2024-10-02T02:07:41.5539024Z added 304 packages, and audited 305 packages in 3s
+2024-10-02T02:07:41.5544375Z 
+2024-10-02T02:07:41.5544823Z 32 packages are looking for funding
+2024-10-02T02:07:41.5546368Z   run \`npm fund\` for details
+2024-10-02T02:07:41.5550154Z 
+2024-10-02T02:07:41.5552635Z found 0 vulnerabilities
+2024-10-02T02:07:41.5828726Z ##[group]Run npm test
+2024-10-02T02:07:41.5829157Z [36;1mnpm test[0m
+2024-10-02T02:07:41.5853336Z shell: /usr/bin/bash -e {0}
+2024-10-02T02:07:41.5853755Z ##[endgroup]
+2024-10-02T02:07:41.7020458Z 
+2024-10-02T02:07:41.7021658Z > actionslogs@1.0.0 test
+2024-10-02T02:07:41.7022478Z > jest
+2024-10-02T02:07:41.7022784Z 
+2024-10-02T02:07:47.0177474Z PASS __tests__/ansi.test.ts
+2024-10-02T02:07:47.0697740Z PASS __tests__/line.test.ts
+2024-10-02T02:07:47.0708808Z PASS __tests__/parser.test.ts
+2024-10-02T02:07:47.2799984Z PASS __tests__/styles.test.ts
+2024-10-02T02:07:47.2941521Z PASS __tests__/elements.test.ts
+2024-10-02T02:07:47.3415943Z 
+2024-10-02T02:07:47.3419887Z Test Suites: 5 passed, 5 total
+2024-10-02T02:07:47.3420832Z Tests:       60 passed, 60 total
+2024-10-02T02:07:47.3421468Z Snapshots:   0 total
+2024-10-02T02:07:47.3421968Z Time:        5.261 s
+2024-10-02T02:07:47.3422328Z Ran all test suites.
+2024-10-02T02:07:47.3935395Z Post job cleanup.
+2024-10-02T02:07:47.5521360Z Post job cleanup.
+2024-10-02T02:07:47.6475045Z [command]/usr/bin/git version
+2024-10-02T02:07:47.6511450Z git version 2.46.1
+2024-10-02T02:07:47.6554256Z Temporarily overriding HOME='/home/runner/work/_temp/047e81ef-737f-431d-b2a5-35a766f667e1' before making global git config changes
+2024-10-02T02:07:47.6555615Z Adding repository directory to the temporary git global config as a safe directory
+2024-10-02T02:07:47.6568089Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/actionslogs-js/actionslogs-js
+2024-10-02T02:07:47.6604899Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2024-10-02T02:07:47.6636069Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2024-10-02T02:07:47.6866705Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2024-10-02T02:07:47.6888131Z http.https://github.com/.extraheader
+2024-10-02T02:07:47.6901136Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2024-10-02T02:07:47.6935329Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2024-10-02T02:07:47.7393611Z Cleaning up orphan processes`,
+  },
 };
+
+export default examples;

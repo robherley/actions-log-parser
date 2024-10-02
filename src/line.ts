@@ -55,6 +55,7 @@ export class Line {
   highlights: Map<number, number>;
   content: string;
   group?: Group;
+  parent?: Line;
   _elements?: Element[];
 
   constructor(number: number, raw: string, id?: string) {

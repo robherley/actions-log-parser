@@ -82,21 +82,17 @@ const App = () => {
               value=""
               onChange={(event) => {
                 event.preventDefault();
-                const example =
-                  {
-                    ansi8: examples.ansi8,
-                    ansi24: examples.ansi24,
-                    commands: examples.commands,
-                  }[event.target.value] || "";
-                onChange(example);
+                onChange(examples[event.target.value].raw);
               }}
             >
               <Select.Option value="" disabled>
                 Examples
               </Select.Option>
-              <Select.Option value="ansi8">8-bit ANSI Colors</Select.Option>
-              <Select.Option value="ansi24">24-bit ANSI Colors</Select.Option>
-              <Select.Option value="commands">Commands</Select.Option>
+              {Object.keys(examples).map((key) => (
+                <Select.Option key={key} value={key}>
+                  {examples[key].label}
+                </Select.Option>
+              ))}
             </Select>
             <TextInput
               leadingVisual={SearchIcon}

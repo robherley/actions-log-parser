@@ -106,6 +106,7 @@ export class LogParser {
       default: {
         if (this.inGroup()) {
           // in a group, add it to said group
+          line.parent = this.last();
           this.last()?.group!.children.push(line);
         } else {
           // otherwise, add it as a regular line
