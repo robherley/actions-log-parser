@@ -16,7 +16,9 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest"
+    "build": "tsc",
+    "test": "jest",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "linkifyjs": "^4.1.3"
