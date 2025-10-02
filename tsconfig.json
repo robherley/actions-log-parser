@@ -10,6 +10,8 @@
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
     "rootDir": "./src",
+    "declaration": true,
+    "declarationMap": true,
     "types": ["@types/jest", "@types/node"]
   },
   "include": ["src"],
