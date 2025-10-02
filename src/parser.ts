@@ -1,4 +1,4 @@
-import { Line, Command } from "./line";
+import { Line, Command } from "./line.js";
 
 export type LinePointer = number | [number, number];
 

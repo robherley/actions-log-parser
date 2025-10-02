@@ -1,6 +1,6 @@
-import { ANSISequenceMap, extractANSI } from "./ansi";
-import { Element, ElementsBuilder } from "./elements";
-import * as linkify from "linkifyjs";
+import { ANSISequenceMap, extractANSI } from "./ansi.js";
+import { Element, ElementsBuilder } from "./elements.js";
+import { find } from "linkifyjs";
 
 // https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions
 export enum Command {
@@ -154,7 +154,7 @@ export class Line {
   }
 
   static extractLinks(line: string): Map<number, number> {
-    const found = linkify.find(line, "url");
+    const found = find(line, "url");
     return new Map(found.map((f) => [f.start, f.end]));
   }
 }
