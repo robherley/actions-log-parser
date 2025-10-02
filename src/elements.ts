@@ -1,5 +1,5 @@
-import { Line } from "./line";
-import { Styles } from "./styles";
+import { Line } from "./line.js";
+import { Styles } from "./styles.js";
 
 export type Element = LinkElement | TextElement;
 export type TextElement = StyledText | string;

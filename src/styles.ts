@@ -1,4 +1,4 @@
-import { ANSISequence, ANSICode } from "./ansi";
+import { ANSISequence, ANSICode } from "./ansi.js";
 
 export type Color = number | [number, number, number];
 

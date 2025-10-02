@@ -1,8 +1,8 @@
-export { ANSICode } from "./ansi";
-export type { ANSISequence, ANSISequenceMap } from "./ansi";
-export type { Element, TextElement, LinkElement, StyledText } from "./elements";
-export { Line, Group, Command } from "./line";
-export type { LinePointer } from "./parser";
-export { LogParser } from "./parser";
-export { Styles } from "./styles";
-export type { StylesOptions, Color } from "./styles";
+export { ANSICode } from "./ansi.js";
+export type { ANSISequence, ANSISequenceMap } from "./ansi.js";
+export type { Element, TextElement, LinkElement, StyledText } from "./elements.js";
+export { Line, Group, Command } from "./line.js";
+export type { LinePointer } from "./parser.js";
+export { LogParser } from "./parser.js";
+export { Styles } from "./styles.js";
+export type { StylesOptions, Color } from "./styles.js";
