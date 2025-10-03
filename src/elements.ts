@@ -1,14 +1,27 @@
 import { Line } from "./line.js";
 import { Styles } from "./styles.js";
 
+/**
+ * Union type for all possible element types in a parsed log line
+ */
 export type Element = LinkElement | TextElement;
+
+/**
+ * Union type for text elements that can be either styled or plain strings
+ */
 export type TextElement = StyledText | string;
 
+/**
+ * Represents a clickable link element with child text elements
+ */
 export interface LinkElement {
   href: string;
   children: TextElement[];
 }
 
+/**
+ * Represents text with associated styling information
+ */
 export interface StyledText {
   content: string;
   style: Styles;
@@ -28,6 +41,11 @@ export class ElementsBuilder {
     this.styles = new Styles();
   }
 
+  /**
+   * Builds elements for a given line, processing links, highlights, and ANSI sequences
+   * @param line - The line to build elements for
+   * @returns Array of elements representing the styled content
+   */
   elementsFor(line: Line): Element[] {
     for (let i = 0; i < line.content.length; i++) {
       const newStyles = this.styles.copy();
@@ -111,6 +129,11 @@ export class ElementsBuilder {
     this.text = "";
   }
 
+  /**
+   * Static factory method to build elements for a line
+   * @param line - The line to build elements for
+   * @returns Array of elements representing the styled content
+   */
   static build(line: Line): Element[] {
     return new ElementsBuilder().elementsFor(line);
   }

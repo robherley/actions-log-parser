@@ -1,7 +1,13 @@
 import { ANSISequence, ANSICode } from "./ansi.js";
 
+/**
+ * Color representation as either an 8-bit color index or RGB tuple
+ */
 export type Color = number | [number, number, number];
 
+/**
+ * Configuration options for text styling
+ */
 export interface StylesOptions {
   bold?: boolean;
   italic?: boolean;
@@ -11,6 +17,9 @@ export interface StylesOptions {
   bg?: Color;
 }
 
+/**
+ * Manages text styling properties including colors and formatting
+ */
 export class Styles {
   bold: boolean;
   italic: boolean;
@@ -35,6 +44,10 @@ export class Styles {
     this.bg = bg;
   }
 
+  /**
+   * Creates a copy of this Styles instance
+   * @returns A new Styles instance with the same properties
+   */
   copy(): Styles {
     return new Styles({
       bold: this.bold,
@@ -46,6 +59,11 @@ export class Styles {
     });
   }
 
+  /**
+   * Checks if this Styles instance is equal to another
+   * @param other - The other Styles instance to compare with
+   * @returns True if all properties are equal, false otherwise
+   */
   equals(other: Styles): boolean {
     return (
       this.bold === other.bold &&
@@ -57,6 +75,10 @@ export class Styles {
     );
   }
 
+  /**
+   * Checks if this Styles instance has no styling applied
+   * @returns True if no styling properties are set, false otherwise
+   */
   isEmpty(): boolean {
     const hasFg = typeof this.fg !== "undefined";
     const hasBg = typeof this.bg !== "undefined";
@@ -71,12 +93,20 @@ export class Styles {
     );
   }
 
+  /**
+   * Applies multiple ANSI sequences to this Styles instance
+   * @param seqs - Array of ANSI sequences to apply
+   */
   applyANSIs(seqs: ANSISequence[]) {
     for (const seq of seqs) {
       this.applyANSI(seq);
     }
   }
 
+  /**
+   * Applies a single ANSI sequence to this Styles instance
+   * @param seq - The ANSI sequence to apply
+   */
   applyANSI(seq: ANSISequence) {
     switch (seq.code) {
       case ANSICode.Reset:

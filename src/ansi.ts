@@ -1,3 +1,6 @@
+/**
+ * ANSI escape code types supported by the parser
+ */
 export enum ANSICode {
   Reset,
   Bold,
@@ -14,13 +17,24 @@ export enum ANSICode {
   SetBG24,
 }
 
+/**
+ * Map of character positions to ANSI sequences found at those positions
+ */
 export type ANSISequenceMap = Map<number, ANSISequence[]>;
 
+/**
+ * Represents a single ANSI escape sequence with its code and optional arguments
+ */
 export interface ANSISequence {
   code: ANSICode;
   args?: [number] | [number, number, number];
 }
 
+/**
+ * Extracts ANSI escape sequences from a string and returns both the sequence map and clean text
+ * @param str - The input string containing potential ANSI escape sequences
+ * @returns A tuple containing the sequence map (position -> sequences) and the cleaned string
+ */
 export function extractANSI(str: string): [ANSISequenceMap, string] {
   let scrubbed = "";
   let sequences = new Map<number, ANSISequence[]>();
