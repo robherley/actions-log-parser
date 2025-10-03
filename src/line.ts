@@ -42,10 +42,17 @@ export class Group {
     }
   }
 
+  /**
+   * Sets a callback function to be called when the group's open state changes
+   * @param callback - Function to call when the group state changes
+   */
   onGroupChange(callback: (open: boolean) => void) {
     this._cb = callback;
   }
 
+  /**
+   * Ends the group and closes it
+   */
   end() {
     this.ended = true;
     this.open = false;
@@ -84,6 +91,11 @@ export class Line {
     }
   }
 
+  /**
+   * Highlights text in the line based on a search string
+   * @param search - The search string to highlight
+   * @returns The number of matches found
+   */
   highlight(search: string): number {
     let matches = 0;
     this.highlights.clear();
@@ -106,6 +118,10 @@ export class Line {
     return matches;
   }
 
+  /**
+   * Gets the elements for this line, building them if they don't exist
+   * @returns Array of elements representing the styled content
+   */
   elements(): Element[] {
     if (this._elements) {
       return this._elements;
@@ -115,6 +131,12 @@ export class Line {
     return this._elements;
   }
 
+  /**
+   * Extracts timestamp from a log line string or ID
+   * @param line - The log line string
+   * @param id - Optional ID containing timestamp information
+   * @returns Tuple of [timestamp, remaining line content]
+   */
   static extractTimestamp(line: string, id?: string): [Date, string] {
     // extract timestamp from beginning of line (completed logs)
     if (line.length >= 28) {
@@ -139,6 +161,11 @@ export class Line {
     return [new Date(), line];
   }
 
+  /**
+   * Extracts GitHub Actions command from a log line
+   * @param line - The log line string
+   * @returns Tuple of [command, remaining line content]
+   */
   static extractCommand(line: string): [Command | undefined, string] {
     let start;
     if (line.startsWith("##[")) {
@@ -162,6 +189,11 @@ export class Line {
     return [undefined, line];
   }
 
+  /**
+   * Extracts URL links from a line and returns their positions
+   * @param line - The line content to extract links from
+   * @returns Map of start positions to end positions for found links
+   */
   static extractLinks(line: string): Map<number, number> {
     const found = find(line, "url");
     return new Map(found.map((f) => [f.start, f.end]));

@@ -25,6 +25,9 @@ export class LogParser {
     this.lines = [];
   }
 
+  /**
+   * Resets the parser to its initial state
+   */
   reset() {
     this.counter = 1;
     this.seenIDs = new Set();
@@ -35,6 +38,7 @@ export class LogParser {
 
   /**
    * Get an array of pointers to visible lines, taking into account group state
+   * @returns Array of line pointers indicating which lines are currently visible
    */
   getVisibleLines(): LinePointer[] {
     if (this._visibleLines) {
@@ -60,6 +64,11 @@ export class LogParser {
     return this._visibleLines;
   }
 
+  /**
+   * Gets a visible line by its index in the visible lines array
+   * @param idx - Index in the visible lines array
+   * @returns The line at the specified visible index, or undefined if not found
+   */
   getVisibleLine(idx: number): Line | undefined {
     const mapping = this.getVisibleLines()[idx];
     if (typeof mapping === "undefined") {
@@ -71,11 +80,19 @@ export class LogParser {
     return this.lines[mapping[0]].group?.children[mapping[1]];
   }
 
+  /**
+   * Resets the visible lines cache and notifies listeners
+   */
   resetVisibleLines() {
     this._visibleLines = undefined;
     this.onVisibleLinesChange?.(this.getVisibleLines());
   }
 
+  /**
+   * Adds a new log line to the parser
+   * @param raw - The raw log line string
+   * @param id - Optional unique identifier for the line
+   */
   add(raw: string, id?: string) {
     if (id) {
       if (this.seenIDs.has(id)) {
@@ -129,25 +146,45 @@ export class LogParser {
     this.resetVisibleLines();
   }
 
+  /**
+   * Adds multiple log lines from a raw string (split by newlines)
+   * @param raw - Raw string containing multiple log lines
+   */
   addRaw(raw: string) {
     raw.split("\n").forEach((line) => this.add(line));
   }
 
+  /**
+   * Gets the last added line
+   * @returns The most recently added line
+   */
   last(): Line {
     return this.lines[this.lines.length - 1];
   }
 
+  /**
+   * Checks if the parser is currently in an open group
+   * @returns True if currently in an open group, false otherwise
+   */
   inGroup() {
     let group = this.last()?.group;
     return group && !group.ended;
   }
 
+  /**
+   * Ends the current group if one is open
+   */
   endGroup() {
     if (this.inGroup()) {
       this.last().group!.end();
     }
   }
 
+  /**
+   * Sets the search term and highlights matching text in all lines
+   * @param search - The search string to highlight
+   * @returns The total number of matches found
+   */
   setSearch(search: string): number {
     this.matches = 0;
     this.search = search;
@@ -157,6 +194,10 @@ export class LogParser {
     return this.matches;
   }
 
+  /**
+   * Gets the current number of search matches
+   * @returns The total number of search matches across all lines
+   */
   getMatches(): number {
     return this.matches;
   }

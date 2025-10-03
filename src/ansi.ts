@@ -30,6 +30,11 @@ export interface ANSISequence {
   args?: [number] | [number, number, number];
 }
 
+/**
+ * Extracts ANSI escape sequences from a string and returns both the sequence map and clean text
+ * @param str - The input string containing potential ANSI escape sequences
+ * @returns A tuple containing the sequence map (position -> sequences) and the cleaned string
+ */
 export function extractANSI(str: string): [ANSISequenceMap, string] {
   let scrubbed = "";
   let sequences = new Map<number, ANSISequence[]>();
