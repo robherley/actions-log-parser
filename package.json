@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "description": "GitHub Actions log parser",
   "keywords": ["github", "actions", "logs", "parser"],
-  "homepage": "https://github.com/robherley/actionslogs-js#readme",
+  "homepage": "https://github.com/robherley/actions-log-parser#readme",
   "bugs": {
-    "url": "https://github.com/robherley/actionslogs-js/issues"
+    "url": "https://github.com/robherley/actions-log-parser/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/robherley/actionslogs-js.git"
+    "url": "git+https://github.com/robherley/actions-log-parser.git"
   },
   "license": "MIT",
   "author": "Robert Herley <robherley13@gmail.com>",
