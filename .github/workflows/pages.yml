@@ -8,18 +8,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 20
+    - uses: actions/checkout@v5
+    - uses: actions/setup-node@v5
     - name: Install Dependencies
-      run: script/setup
+      run: |
+        npm ci
+        npm ci --prefix demo
     - name: Build
-      run: script/build
+      run: npm run build:demo
     - name: Upload Artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: web/dist/
+        path: demo/dist/
   deploy:
     needs: build
     runs-on: ubuntu-latest

@@ -24,6 +24,8 @@
   },
   "scripts": {
     "build": "tsc",
+    "build:demo": "npm run build --prefix demo",
+    "dev": "npm run dev --prefix demo",
     "test": "jest",
     "prepublishOnly": "npm run build"
   },
