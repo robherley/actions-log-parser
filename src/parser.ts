@@ -1,7 +1,13 @@
 import { Line, Command } from "./line.js";
 
+/**
+ * Pointer to a line in the parsed log, either a direct index or [groupIndex, childIndex] tuple
+ */
 export type LinePointer = number | [number, number];
 
+/**
+ * Main parser class for processing GitHub Actions log streams
+ */
 export class LogParser {
   counter: number;
   seenIDs: Set<string>;
@@ -27,6 +33,9 @@ export class LogParser {
     this.resetVisibleLines();
   }
 
+  /**
+   * Get an array of pointers to visible lines, taking into account group state
+   */
   getVisibleLines(): LinePointer[] {
     if (this._visibleLines) {
       return this._visibleLines;

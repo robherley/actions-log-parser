@@ -1,14 +1,27 @@
 import { Line } from "./line.js";
 import { Styles } from "./styles.js";
 
+/**
+ * Union type for all possible element types in a parsed log line
+ */
 export type Element = LinkElement | TextElement;
+
+/**
+ * Union type for text elements that can be either styled or plain strings
+ */
 export type TextElement = StyledText | string;
 
+/**
+ * Represents a clickable link element with child text elements
+ */
 export interface LinkElement {
   href: string;
   children: TextElement[];
 }
 
+/**
+ * Represents text with associated styling information
+ */
 export interface StyledText {
   content: string;
   style: Styles;

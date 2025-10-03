@@ -2,7 +2,10 @@ import { ANSISequenceMap, extractANSI } from "./ansi.js";
 import { Element, ElementsBuilder } from "./elements.js";
 import { find } from "linkifyjs";
 
-// https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions
+/**
+ * GitHub Actions workflow command types
+ * @see https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions
+ */
 export enum Command {
   Command = "command",
   Debug = "debug",
@@ -19,6 +22,9 @@ export enum Command {
   // Info = "info",
 }
 
+/**
+ * Represents a collapsible group of log lines
+ */
 export class Group {
   children: Line[] = [];
   ended: boolean = false;
@@ -46,6 +52,9 @@ export class Group {
   }
 }
 
+/**
+ * Represents a single line in a GitHub Actions log with all its parsed content
+ */
 export class Line {
   n: number;
   ts: Date;

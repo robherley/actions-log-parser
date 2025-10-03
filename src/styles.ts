@@ -1,7 +1,13 @@
 import { ANSISequence, ANSICode } from "./ansi.js";
 
+/**
+ * Color representation as either an 8-bit color index or RGB tuple
+ */
 export type Color = number | [number, number, number];
 
+/**
+ * Configuration options for text styling
+ */
 export interface StylesOptions {
   bold?: boolean;
   italic?: boolean;
@@ -11,6 +17,9 @@ export interface StylesOptions {
   bg?: Color;
 }
 
+/**
+ * Manages text styling properties including colors and formatting
+ */
 export class Styles {
   bold: boolean;
   italic: boolean;

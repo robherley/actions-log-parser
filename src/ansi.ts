@@ -1,3 +1,6 @@
+/**
+ * ANSI escape code types supported by the parser
+ */
 export enum ANSICode {
   Reset,
   Bold,
@@ -14,8 +17,14 @@ export enum ANSICode {
   SetBG24,
 }
 
+/**
+ * Map of character positions to ANSI sequences found at those positions
+ */
 export type ANSISequenceMap = Map<number, ANSISequence[]>;
 
+/**
+ * Represents a single ANSI escape sequence with its code and optional arguments
+ */
 export interface ANSISequence {
   code: ANSICode;
   args?: [number] | [number, number, number];
