@@ -1,5 +1,0 @@
-#!/bin/bash
-
-root=$(git rev-parse --show-toplevel)
-
-npm run dev --prefix "$root/web"
